@@ -59,6 +59,6 @@ app.post('/message', function(req,res){
   */
 });
 
-app.listen(80,function(){
-  console.log('Connect 80 port!')
+app.listen(8080,function(){
+  console.log('Connect 8080 port!')
 });
