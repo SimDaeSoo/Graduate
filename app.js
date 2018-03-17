@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var mecab = require('mecab-ffi');
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
@@ -67,6 +68,8 @@ app.post('/message', function(req,res){
   */
 });
 
+var paragraph ='마이크로소프트(MS)가 개발한 운영체제(OS) 최신 버전 ‘윈도우 10’의 무료 업그레이드가 29일부로 종료된다.';
+
 app.listen(8080,function(){
   console.log('Connect 8080 port!');
 
@@ -74,5 +77,9 @@ app.listen(8080,function(){
     if(err) throw err;
     var msg = res[0].variable;
     console.log("테스트 : " + msg);
+    
+    mecab.extractNounMap(paragraph, function(err, result) {
+      console.log(result);
+    });
   });
 });
