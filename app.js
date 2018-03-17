@@ -77,9 +77,13 @@ app.listen(8080,function(){
     if(err) throw err;
     var msg = res[0].variable;
     console.log("테스트 : " + msg);
-    
+
     mecab.extractNounMap(paragraph, function(err, result) {
-      console.log(result);
+      var toStringRes = "";
+      for( var key in object ) {
+        toStringRes += key + '['+object[key]+'] ';
+      }
+      console.log(toStringRes);
     });
   });
 });
