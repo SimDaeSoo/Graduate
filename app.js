@@ -2,6 +2,14 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var mysql = require('mysql');
+
+var client = mysql.createConnection({
+    hostname : "127.0.0.1:3306",
+    user : "root",
+    password : "a123123",
+    database : "sys"
+});
 
 app.use(bodyParser.json());
 
@@ -60,5 +68,11 @@ app.post('/message', function(req,res){
 });
 
 app.listen(8080,function(){
-  console.log('Connect 8080 port!')
+  console.log('Connect 8080 port!');
+
+  client.query('SELECT * FROM sys_config',function(err,res){
+    if(err) throw err;
+    var msg = res[0].variable;
+    console.log("테스트 : " + msg);
+  });
 });
