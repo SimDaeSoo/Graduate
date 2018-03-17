@@ -1,0 +1,24 @@
+{
+  "name": "kakaoapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "espress": "0.0.0",
+    "express": "^4.16.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeckererDarr/kakaoApiWithNode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LeckererDarr/kakaoApiWithNode/issues"
+  },
+  "homepage": "https://github.com/LeckererDarr/kakaoApiWithNode#readme",
+  "description": ""
+}
