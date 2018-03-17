@@ -59,6 +59,6 @@ app.post('/message', function(req,res){
   */
 });
 
-app.listen(3000,function(){
-  console.log('Connect 3000 port!')
+app.listen(80,function(){
+  console.log('Connect 80 port!')
 });
