@@ -84,7 +84,7 @@ app.post('/message', function(req,res){
 
               result_arr.push(Q_Arr);
             }
-            console.log(Q_Arr);
+            console.log(result_arr);
             // client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
             // });
           });
@@ -113,8 +113,8 @@ app.post('/message', function(req,res){
       var Q_Type = '';
       var new_q_id = 0; // 비동기니까 잘 처리할 것.
       //--------------------------------------------------------------------------------
-      client.query('SELECT * FROM Count_Table',function(err,res){
-        new_q_id = res[0].tot_q;
+      client.query('SELECT * FROM Count_Table',function(err,count_res){
+        new_q_id = count_res[0].tot_q;
         if(system_mode == 2){
           for( var key in result ) {
             toStringRes += key + '['+result[key]+'] ';
