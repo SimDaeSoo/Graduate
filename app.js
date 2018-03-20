@@ -4,7 +4,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var mecab = require('mecab-ffi');
-system_mode = 0;
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
@@ -34,7 +33,7 @@ app.post('/message', function(req,res){
   let content = decodeURIComponent(req.body.content); // user's message
   var toStringRes = "";
   // console.log('req : '+req);
-  // console.log('user_key : '+user_key);
+  console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
 
@@ -44,6 +43,7 @@ app.post('/message', function(req,res){
     var index = 1;
     var Q_Type = '';
     var new_q_id = 0; // 비동기니까 잘 처리할 것.
+    var system_mode;
     //--------------------------------------------------------------------------------
     client.query('SELECT * FROM Count_Table',function(err,res){
       if(err) throw err;
