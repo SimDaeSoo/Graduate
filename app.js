@@ -38,11 +38,25 @@ app.post('/message', function(req,res){
   console.log('input : '+content);
 
   mecab.extractNounMap(content, function(err, result) {
-
+    var Q_Arr = [];
+    var index = 1;
+    var length = result.length;
+    var Q_Type = '';
+    var Id = 1;
     for( var key in result ) {
       toStringRes += key + '['+result[key]+'] ';
+
+      Q_Arr.push(Id);
+      Q_Arr.push(index++);
+      Q_Arr.push(length);
+      Q_Arr.push("Q"); // 의사소통 목적.
+      Q_Arr.push(result[key][0]);
+      Q_Arr.push(result[key][1]);
+      Q_Arr.push(result[key][2]);
+      Q_Arr.push(result[key][3]);
+      Q_Arr.push(1); // Search count 수.
     }
-    console.log('res : '+toStringRes);
+    console.log(Q_Arr);
 
     let answer = {
       "message":{
@@ -80,8 +94,8 @@ app.post('/message', function(req,res){
 
 var paragraph ='마이크로소프트(MS)가 개발한 운영체제(OS) 최신 버전 ‘윈도우 10’의 무료 업그레이드가 29일부로 종료된다.';
 
-app.listen(8080,function(){
-  console.log('Connect 8080 port!');
+app.listen(80,function(){
+  console.log('Connect 80 port!');
 
   client.query('SELECT * FROM sys_config',function(err,res){
     if(err) throw err;
