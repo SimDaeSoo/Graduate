@@ -2,7 +2,7 @@
 <html lang="en" >
   <head>
     <meta charset="UTF-8">
-    <title>Vue2 page transitions with GSAP</title>
+    <title>Programming Language Lab (2018)</title>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:bold' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -14,7 +14,7 @@
     <!-- App -->
   <div id="app">
   	<component :is="state.view">
-  		<h1>{{ state.view }}</h1>
+  		<h1>대수야 졸업하자</h1>
   	</component>
   	<controls></controls>
   </div>
@@ -33,7 +33,7 @@
   	<transition v-on:enter="enter" v-on:leave="leave" v-bind:css="false" appear>
   		<div class="page" v-bind:class="state.view">
   			<div class="center">
-  				<slot></slot>
+  				<slot>ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ</slot>
   			</div>
   		</div>
   	</transition>
@@ -173,7 +173,7 @@ body {
 // State
 var state = {
 	animations: ['fade', 'slide', 'slideUp', 'zoom', 'flipX', 'flipY'],
-	view: 'slide'
+	view: 'fade'
 
 	// Controls
 };var controls = Vue.component('controls', {
