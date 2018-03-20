@@ -78,14 +78,16 @@ app.post('/message', function(req,res){
     //--------------------------------------------------------------------------------
     console.log(result_arr);
 
+    var answer;
+
     if(system_mode == 1){
-      let answer = {
+      answer = {
         "message":{
           "text":"System - 학습모드로 전환합니다." // in case 'text'
         }
       }
     }else{
-      let answer = {
+      answer = {
         "message":{
           "text":"명사분석 결과 : "+toStringRes // in case 'text'
         }
