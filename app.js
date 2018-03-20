@@ -38,25 +38,11 @@ app.post('/message', function(req,res){
   console.log('input : '+content);
 
   mecab.extractNounMap(content, function(err, result) {
-    var Q_Arr = [];
-    var index = 1;
-    var length = result.length;
-    var Q_Type = '';
-    var Id = 1;
+
     for( var key in result ) {
       toStringRes += key + '['+result[key]+'] ';
-
-      Q_Arr.push(Id);
-      Q_Arr.push(index++);
-      Q_Arr.push(length);
-      Q_Arr.push("Q"); // 의사소통 목적.
-      Q_Arr.push(result[key][0]);
-      Q_Arr.push(result[key][1]);
-      Q_Arr.push(result[key][2]);
-      Q_Arr.push(result[key][3]);
-      Q_Arr.push(1); // Search count 수.
     }
-    console.log(Q_Arr);
+    console.log('res : '+toStringRes);
 
     let answer = {
       "message":{
