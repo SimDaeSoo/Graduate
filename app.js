@@ -42,7 +42,7 @@ app.post('/message', function(req,res){
     if(res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,res){
         console.log(res);
-      }
+      });
     }else{
       console.log(res);
     }
