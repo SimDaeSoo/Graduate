@@ -38,13 +38,13 @@ app.post('/message', function(req,res){
   // console.log('type : '+type);
   // console.log('input : '+content);
 
-  client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,res){
-    if(res.length==0){
-      client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,res){
+  client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
+    if(query_res.length==0){
+      client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
         system_mode = 0;
       });
     }else{
-      system_mode = res.sys_status;
+      system_mode = query_res.sys_status;
     }
 
     mecab.parse(content, function(err, result) {
