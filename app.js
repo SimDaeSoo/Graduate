@@ -52,9 +52,9 @@ app.post('/message', function(req,res){
       console.log("New Q ID is a : " + new_q_id);
     });
     //--------------------------------------------------------------------------------
-    if(content.split("#학습모드")[1].length>0){
+    if(content.split("#학습모드")[1] != undefined){
       system_mode = 1;
-    }else if(content.split("#기본모드")[1].length>0){
+    }else if(content.split("#기본모드") != undefined){
       system_mode = 0;
     }
     //--------------------------------------------------------------------------------
