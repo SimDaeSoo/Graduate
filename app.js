@@ -9,7 +9,7 @@ var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
     user : "root",
     password : "a123123",
-    database : "sys"
+    database : "qna"
 });
 
 app.use(bodyParser.json());
@@ -38,6 +38,13 @@ app.post('/message', function(req,res){
   console.log('input : '+content);
 
   mecab.parse(content, function(err, result) {
+    //--------------------------------------------------------------------------------
+      client.query('SELECT * FROM Q_Table',function(err,res){
+        if(err) throw err;
+        var new_q_id = res[0].tot_q;
+        console.log("New Q ID is a : " + new_q_id);
+      });
+    //--------------------------------------------------------------------------------
     var result_arr = [];
     var length = result.length;
     var index = 1;
@@ -97,18 +104,10 @@ app.post('/message', function(req,res){
   */
 });
 
-var paragraph ='마이크로소프트(MS)가 개발한 운영체제(OS) 최신 버전 ‘윈도우 10’의 무료 업그레이드가 29일부로 종료된다.';
-
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(8080,function(){
-  console.log('Connect 8080 port!');
-
-  client.query('SELECT * FROM sys_config',function(err,res){
-    if(err) throw err;
-    var msg = res[0].variable;
-    console.log("테스트 : " + msg);
-  });
+  console.log('8080 포트 서버 연결 완료!.');
 });
