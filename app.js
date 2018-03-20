@@ -40,7 +40,11 @@ app.post('/message', function(req,res){
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,res){
     if(err) throw err;
     if(res.length==0){
-      console.log("insert");
+      client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,res){
+        console.log(res);
+      }
+    }else{
+      console.log(res);
     }
   });
 
