@@ -32,32 +32,32 @@ app.post('/message', function(req,res){
   let type = decodeURIComponent(req.body.type); // message type
   let content = decodeURIComponent(req.body.content); // user's message
   var toStringRes = "";
+  var system_mode;
   // console.log('req : '+req);
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,res){
-    if(err) throw err;
     if(res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,res){
+        system_mode = 0;
         console.log(res);
       });
     }else{
+      system_mode = res.sys_status;
       console.log(res);
     }
   });
-
+//UPDATE EMP01 SET DEPTNO=30;
   mecab.parse(content, function(err, result) {
     var result_arr = [];
     var length = result.length;
     var index = 1;
     var Q_Type = '';
     var new_q_id = 0; // 비동기니까 잘 처리할 것.
-    var system_mode;
     //--------------------------------------------------------------------------------
     client.query('SELECT * FROM Count_Table',function(err,res){
-      if(err) throw err;
       new_q_id = res[0].tot_q;
 
       console.log("New Q ID is a : " + new_q_id);
@@ -65,8 +65,12 @@ app.post('/message', function(req,res){
     //--------------------------------------------------------------------------------
     if(content.split("#학습모드")[1] != undefined){
       system_mode = 1;
+      client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+      });
     }else if(content.split("#기본모드") != undefined){
       system_mode = 0;
+      client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+      });
     }
     //--------------------------------------------------------------------------------
     for( var key in result ) {
