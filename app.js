@@ -33,67 +33,72 @@ app.post('/message', function(req,res){
   let content = decodeURIComponent(req.body.content); // user's message
   var toStringRes = "";
   // console.log('req : '+req);
-  console.log('user_key : '+user_key);
+  // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
 
-  mecab.parse(content, function(err, result) {
-    var result_arr = [];
-    var length = result.length;
-    var index = 1;
-    var Q_Type = '';
-    var new_q_id = 0; // 비동기니까 잘 처리할 것.
-    var system_mode;
-    //--------------------------------------------------------------------------------
-    client.query('SELECT * FROM Count_Table',function(err,res){
-      if(err) throw err;
-      new_q_id = res[0].tot_q;
+  client.query('SELECT * FROM Sys_User WHERE user_key='+user_key,function(err,res){
+    if(res.length==0){
+      console.log("insert");
+    }
+    mecab.parse(content, function(err, result) {
+      var result_arr = [];
+      var length = result.length;
+      var index = 1;
+      var Q_Type = '';
+      var new_q_id = 0; // 비동기니까 잘 처리할 것.
+      var system_mode;
+      //--------------------------------------------------------------------------------
+      client.query('SELECT * FROM Count_Table',function(err,res){
+        if(err) throw err;
+        new_q_id = res[0].tot_q;
 
-      console.log("New Q ID is a : " + new_q_id);
+        console.log("New Q ID is a : " + new_q_id);
+      });
+      //--------------------------------------------------------------------------------
+      if(content.split("#학습모드")[1] != undefined){
+        system_mode = 1;
+      }else if(content.split("#기본모드") != undefined){
+        system_mode = 0;
+      }
+      //--------------------------------------------------------------------------------
+      for( var key in result ) {
+        var Q_Arr = [];
+
+        toStringRes += key + '['+result[key]+'] ';
+
+        Q_Arr.push(new_q_id);
+        Q_Arr.push(index++);
+        Q_Arr.push(length);
+        Q_Arr.push("Q"); // 의사소통 목적.
+        Q_Arr.push(result[key][0]);
+        Q_Arr.push(result[key][1]);
+        Q_Arr.push(result[key][2]);
+        Q_Arr.push(result[key][3]);
+        Q_Arr.push(1); // Search count 수.
+
+        result_arr.push(Q_Arr);
+      }
+      //--------------------------------------------------------------------------------
+      console.log(result_arr);
+
+      var answer;
+
+      if(system_mode == 1){
+        answer = {
+          "message":{
+            "text":"System - 학습모드로 전환합니다." // in case 'text'
+          }
+        }
+      }else{
+        answer = {
+          "message":{
+            "text":"명사분석 결과 : "+toStringRes // in case 'text'
+          }
+        }
+      }
+      res.send(answer);
     });
-    //--------------------------------------------------------------------------------
-    if(content.split("#학습모드")[1] != undefined){
-      system_mode = 1;
-    }else if(content.split("#기본모드") != undefined){
-      system_mode = 0;
-    }
-    //--------------------------------------------------------------------------------
-    for( var key in result ) {
-      var Q_Arr = [];
-
-      toStringRes += key + '['+result[key]+'] ';
-
-      Q_Arr.push(new_q_id);
-      Q_Arr.push(index++);
-      Q_Arr.push(length);
-      Q_Arr.push("Q"); // 의사소통 목적.
-      Q_Arr.push(result[key][0]);
-      Q_Arr.push(result[key][1]);
-      Q_Arr.push(result[key][2]);
-      Q_Arr.push(result[key][3]);
-      Q_Arr.push(1); // Search count 수.
-
-      result_arr.push(Q_Arr);
-    }
-    //--------------------------------------------------------------------------------
-    console.log(result_arr);
-
-    var answer;
-
-    if(system_mode == 1){
-      answer = {
-        "message":{
-          "text":"System - 학습모드로 전환합니다." // in case 'text'
-        }
-      }
-    }else{
-      answer = {
-        "message":{
-          "text":"명사분석 결과 : "+toStringRes // in case 'text'
-        }
-      }
-    }
-    res.send(answer);
   });
   /*
   answer can use
