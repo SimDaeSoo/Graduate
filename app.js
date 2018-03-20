@@ -37,17 +37,13 @@ app.post('/message', function(req,res){
   console.log('type : '+type);
   console.log('input : '+content);
 
-<<<<<<< HEAD
-  mecab.extractNounMap(content, function(err, result){
-    if(err) throw err;
-=======
   mecab.extractNounMap(content, function(err, result) {
     var Q_Arr = [];
     var index = 1;
     var length = result.length;
     var Q_Type = '';
     var Id = 1;
->>>>>>> parent of 2d63a8b... 원복
+
     for( var key in result ) {
       toStringRes += key + '['+result[key]+'] ';
 
