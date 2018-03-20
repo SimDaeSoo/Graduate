@@ -37,7 +37,7 @@ app.post('/message', function(req,res){
   // console.log('type : '+type);
   // console.log('input : '+content);
 
-  client.query('SELECT * FROM Sys_User WHERE user_key='+user_key,function(err,res){
+  client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,res){
     if(err) throw err;
     if(res.length==0){
       console.log("insert");
