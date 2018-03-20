@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var mecab = require('mecab-ffi');
+var system_mode = 0;
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
@@ -32,31 +33,37 @@ app.post('/message', function(req,res){
   let type = decodeURIComponent(req.body.type); // message type
   let content = decodeURIComponent(req.body.content); // user's message
   var toStringRes = "";
-  console.log('req : '+req);
-  console.log('user_key : '+user_key);
-  console.log('type : '+type);
-  console.log('input : '+content);
+  // console.log('req : '+req);
+  // console.log('user_key : '+user_key);
+  // console.log('type : '+type);
+  // console.log('input : '+content);
 
   mecab.parse(content, function(err, result) {
-    //--------------------------------------------------------------------------------
-      client.query('SELECT * FROM Count_Table',function(err,res){
-        if(err) throw err;
-        var new_q_id = res[0].tot_q;
-        console.log("New Q ID is a : " + new_q_id);
-      });
-    //--------------------------------------------------------------------------------
     var result_arr = [];
     var length = result.length;
     var index = 1;
     var Q_Type = '';
-    var Id = 1;
+    var new_q_id = 0; // 비동기니까 잘 처리할 것.
+    //--------------------------------------------------------------------------------
+    client.query('SELECT * FROM Count_Table',function(err,res){
+      if(err) throw err;
+      new_q_id = res[0].tot_q;
 
+      console.log("New Q ID is a : " + new_q_id);
+    });
+    //--------------------------------------------------------------------------------
+    if(content.split("#학습모드")[1].length>0){
+      system_mode = 1;
+    }else if(content.split("#기본모드")[1].length>0){
+      system_mode = 0;
+    }
+    //--------------------------------------------------------------------------------
     for( var key in result ) {
       var Q_Arr = [];
 
       toStringRes += key + '['+result[key]+'] ';
 
-      Q_Arr.push(Id);
+      Q_Arr.push(new_q_id);
       Q_Arr.push(index++);
       Q_Arr.push(length);
       Q_Arr.push("Q"); // 의사소통 목적.
@@ -68,11 +75,20 @@ app.post('/message', function(req,res){
 
       result_arr.push(Q_Arr);
     }
+    //--------------------------------------------------------------------------------
     console.log(result_arr);
 
-    let answer = {
-      "message":{
-        "text":"명사분석 결과 : "+toStringRes // in case 'text'
+    if(system_mode == 1){
+      let answer = {
+        "message":{
+          "text":"System - 학습모드로 전환합니다." // in case 'text'
+        }
+      }
+    }else{
+      let answer = {
+        "message":{
+          "text":"명사분석 결과 : "+toStringRes // in case 'text'
+        }
       }
     }
     res.send(answer);
