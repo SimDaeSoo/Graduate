@@ -48,6 +48,28 @@ app.post('/message', function(req,res){
     }
   });
 
+  if(system_mode == 1){
+    var temp_a = content.split("#A")[1];
+    content = content.split("#A")[0];
+    content = content.split("#Q")[1];
+    console.log(content);
+    console.log(temp_a);
+    // for( var key in result ) {
+    //   var Q_Arr = [];
+    //   Q_Arr.push(new_q_id);
+    //   Q_Arr.push(index++);
+    //   Q_Arr.push(length);
+    //   Q_Arr.push(result[key][0]);
+    //   Q_Arr.push(result[key][1]);
+    //   Q_Arr.push(result[key][2]);
+    //   Q_Arr.push(result[key][3]);
+    //   Q_Arr.push(1); // Search count 수.
+    //   Q_Arr.push("Q"); // 의사소통 목적.
+    //
+    //   result_arr.push(Q_Arr);
+    // }
+  }
+
   mecab.parse(content, function(err, result) {
     var result_arr = [];
     var length = result.length;
@@ -61,23 +83,24 @@ app.post('/message', function(req,res){
       console.log("New Q ID is a : " + new_q_id);
     });
     //--------------------------------------------------------------------------------
-    if(system_mode == 2){
+    if(system_mode == 1){
       for( var key in result ) {
         var Q_Arr = [];
-
-        toStringRes += key + '['+result[key]+'] ';
-
         Q_Arr.push(new_q_id);
         Q_Arr.push(index++);
         Q_Arr.push(length);
-        Q_Arr.push("Q"); // 의사소통 목적.
         Q_Arr.push(result[key][0]);
         Q_Arr.push(result[key][1]);
         Q_Arr.push(result[key][2]);
         Q_Arr.push(result[key][3]);
         Q_Arr.push(1); // Search count 수.
+        Q_Arr.push("Q"); // 의사소통 목적.
 
         result_arr.push(Q_Arr);
+      }
+    }else if(system_mode == 2){
+      for( var key in result ) {
+        toStringRes += key + '['+result[key]+'] ';
       }
     }
     //--------------------------------------------------------------------------------
