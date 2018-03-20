@@ -41,7 +41,7 @@ app.post('/message', function(req,res){
     //--------------------------------------------------------------------------------
       client.query('SELECT * FROM Q_Table',function(err,res){
         if(err) throw err;
-        console.log("New Q ID is a : " + res);
+        console.log(res);
       });
     //--------------------------------------------------------------------------------
     var result_arr = [];
