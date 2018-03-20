@@ -41,8 +41,7 @@ app.post('/message', function(req,res){
     //--------------------------------------------------------------------------------
       client.query('SELECT * FROM Q_Table',function(err,res){
         if(err) throw err;
-        var new_q_id = res[0].tot_q;
-        console.log("New Q ID is a : " + new_q_id);
+        console.log("New Q ID is a : " + res);
       });
     //--------------------------------------------------------------------------------
     var result_arr = [];
