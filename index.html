@@ -6,7 +6,6 @@
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:bold' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
@@ -33,14 +32,13 @@
   	<transition v-on:enter="enter" v-on:leave="leave" v-bind:css="false" appear>
   		<div class="page" v-bind:class="state.view">
   			<div class="center">
-  				<slot>ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ</slot>
+  				<slot></slot>
   			</div>
   		</div>
   	</transition>
   </template>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.min.js'></script>
-  <script  src="js/index.js"></script>
   </body>
 </html>
 
