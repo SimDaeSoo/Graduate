@@ -37,8 +37,8 @@ app.post('/message', function(req,res){
   console.log('type : '+type);
   console.log('input : '+content);
 
-  mecab.extractNounMap(content, function(err, result) {
-
+  mecab.extractNounMap(content, function(err, result) {){
+    if(err) throw err;
     for( var key in result ) {
       toStringRes += key + '['+result[key]+'] ';
     }
