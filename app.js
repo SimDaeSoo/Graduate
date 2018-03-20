@@ -37,14 +37,16 @@ app.post('/message', function(req,res){
   console.log('type : '+type);
   console.log('input : '+content);
 
-  mecab.extractNounMap(content, function(err, result) {
-    var Q_Arr = [];
-    var index = 1;
+  mecab.parse(content, function(err, result) {
+    var result_arr = [];
     var length = result.length;
+    var index = 1;
     var Q_Type = '';
     var Id = 1;
 
     for( var key in result ) {
+      var Q_Arr = [];
+
       toStringRes += key + '['+result[key]+'] ';
 
       Q_Arr.push(Id);
@@ -56,8 +58,10 @@ app.post('/message', function(req,res){
       Q_Arr.push(result[key][2]);
       Q_Arr.push(result[key][3]);
       Q_Arr.push(1); // Search count 수.
+
+      result_arr.push(Q_Arr);
     }
-    console.log(Q_Arr);
+    console.log(result_arr);
 
     let answer = {
       "message":{
