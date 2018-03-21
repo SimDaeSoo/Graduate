@@ -124,7 +124,7 @@ app.post('/message', function(req,res){
             q_length = count_res[0].tot_q;
             if(system_mode == 2){
               for( var key in result ) {
-                toStringRes += key + '['+result[key]+'] ';
+                toStringRes += key + '['+result[key]+']\n';
               }
             }
             //--------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ app.post('/message', function(req,res){
               client.query('SELECT * FROM Count_Table',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"<System : 평균유사도>\n" + (q_res[0].tot_avg_score / q_res[0].tot_answer_cnt).toFixed(2)
+                    "text":"<System : 평균유사도>\nQuestion Count : " + q_res[0].tot_answer_cnt + "\nAvg Similarity : " + (q_res[0].tot_avg_score / q_res[0].tot_answer_cnt).toFixed(2) + "%"
                   }
                 }
                 res.send(answer);
