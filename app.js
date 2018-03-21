@@ -161,53 +161,53 @@ app.post('/message', function(req,res){
               }
             }
           }else if(system_mode == 0){
-            var Similarity = 0;
-            var Similarity_Q_Id = 0;
-
-            for(i=0;i<q_length;i++){
-              var temp_res = Table_res;
-              var Temp_Union = 0;
-              var Temp_Inersection = 0;
-
-              for(j=0;j<result.length;j++){
-                var key_word_simila = 0;
-                var key_word_index = 0;
-
-                for(k=0;k<temp_res.length;k++){
-                  if(temp_res[k].id < i){
-                    k += temp_res[k].length-2;
-                  }else if(temp_res[k].id == i){
-                    Temp_Union = temp_res[k].length + result.length;
-                    var temp_simila = 0;
-                    if(temp_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
-                    if(temp_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
-                    if(temp_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
-                    if(temp_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
-
-                    if(key_word_simila < temp_simila){
-                      key_word_simila = temp_simila;
-                      key_word_index = k;
-                    }
-                  }else if(temp_res[k].id > i){
-                    break;
-                  }
-                }
-
-                temp_res[key_word_index].q_1 = "";
-                temp_res[key_word_index].q_2 = "";
-                temp_res[key_word_index].q_3 = "";
-                temp_res[key_word_index].q_4 = "";
-                Temp_Union -= key_word_simila;
-                Temp_Inersection += key_word_simila;
-              }
-
-              var Temp_Similarity = TempIntersection/Temp_Union;
-              if(Similarity < Temp_Similarity){
-                Similarity = Temp_Similarity;
-                Similarity_Q_Id = i;
-              }
-            }
-            console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
+            // var Similarity = 0;
+            // var Similarity_Q_Id = 0;
+            //
+            // for(i=0;i<q_length;i++){
+            //   var temp_res = Table_res;
+            //   var Temp_Union = 0;
+            //   var Temp_Inersection = 0;
+            //
+            //   for(j=0;j<result.length;j++){
+            //     var key_word_simila = 0;
+            //     var key_word_index = 0;
+            //
+            //     for(k=0;k<temp_res.length;k++){
+            //       if(temp_res[k].id < i){
+            //         k += temp_res[k].length-1;
+            //       }else if(temp_res[k].id == i){
+            //         Temp_Union = temp_res[k].length + result.length;
+            //         var temp_simila = 0;
+            //         if(temp_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
+            //         if(temp_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
+            //         if(temp_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
+            //         if(temp_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
+            //
+            //         if(key_word_simila < temp_simila){
+            //           key_word_simila = temp_simila;
+            //           key_word_index = k;
+            //         }
+            //       }else if(temp_res[k].id > i){
+            //         break;
+            //       }
+            //     }
+            //
+            //     temp_res[key_word_index].q_1 = "";
+            //     temp_res[key_word_index].q_2 = "";
+            //     temp_res[key_word_index].q_3 = "";
+            //     temp_res[key_word_index].q_4 = "";
+            //     Temp_Union -= key_word_simila;
+            //     Temp_Inersection += key_word_simila;
+            //   }
+            //
+            //   var Temp_Similarity = TempIntersection/Temp_Union;
+            //   if(Similarity < Temp_Similarity){
+            //     Similarity = Temp_Similarity;
+            //     Similarity_Q_Id = i;
+            //   }
+            // }
+            // console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
 
             answer = {
               "message":{
