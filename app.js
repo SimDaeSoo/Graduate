@@ -259,7 +259,7 @@ app.post('/message', function(req,res){
                 {
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다.>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else{
