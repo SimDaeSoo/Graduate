@@ -168,37 +168,37 @@ app.post('/message', function(req,res){
               var Temp_Union = 0;
               var Temp_Inersection = 0;
 
-              for(j=0;j<result.length;j++){
-                var key_word_simila = 0;
-                var key_word_index = 0;
-
-                for(k=0;k<Table_res.length;k++){
-                  if(Table_res[k].id < i){
-                    k += Table_res[k].q_length-1;
-                  }else if(Table_res[k].id == i){
-                    Temp_Union = Table_res[k].q_length + result.length;
-                    var temp_simila = 0;
-                    if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
-                    if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
-                    if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
-                    if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
-
-                    if(key_word_simila < temp_simila){
-                      key_word_simila = temp_simila;
-                      key_word_index = k;
-                    }
-                  }else if(Table_res[k].id > i){
-                    break;
-                  }
-                }
-
-                Table_res[key_word_index].q_1 = "";
-                Table_res[key_word_index].q_2 = "";
-                Table_res[key_word_index].q_3 = "";
-                Table_res[key_word_index].q_4 = "";
-                Temp_Union -= key_word_simila;
-                Temp_Inersection += key_word_simila;
-              }
+              // for(j=0;j<result.length;j++){
+              //   var key_word_simila = 0;
+              //   var key_word_index = 0;
+              //
+              //   for(k=0;k<Table_res.length;k++){
+              //     if(Table_res[k].id < i){
+              //       k += Table_res[k].q_length-1;
+              //     }else if(Table_res[k].id == i){
+              //       Temp_Union = Table_res[k].q_length + result.length;
+              //       var temp_simila = 0;
+              //       if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
+              //       if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
+              //       if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
+              //       if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
+              //
+              //       if(key_word_simila < temp_simila){
+              //         key_word_simila = temp_simila;
+              //         key_word_index = k;
+              //       }
+              //     }else if(Table_res[k].id > i){
+              //       break;
+              //     }
+              //   }
+              //
+              //   Table_res[key_word_index].q_1 = "";
+              //   Table_res[key_word_index].q_2 = "";
+              //   Table_res[key_word_index].q_3 = "";
+              //   Table_res[key_word_index].q_4 = "";
+              //   Temp_Union -= key_word_simila;
+              //   Temp_Inersection += key_word_simila;
+              // }
 
               var Temp_Similarity = TempIntersection/Temp_Union;
               if(Similarity < Temp_Similarity){
