@@ -95,8 +95,8 @@ app.post('/message', function(req,res){
             }
             console.log(toQuery);
             //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
-            // client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
-            // });
+            client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
+            });
           });
         });
 
@@ -106,11 +106,14 @@ app.post('/message', function(req,res){
           client.query('SELECT * FROM Count_Table',function(err,res){
             new_a_id = res[0].tot_q;
             var toQuery = "";
-            toQuery+='(\''+new_a_id+'\')';
-            toQuery+='(\''+temp_a+'\')';
+            toQuery+='(\''+new_a_id+'\'';
+            toQuery+=',\''+temp_a+'\')';
             console.log(toQuery);
-            // client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
-            // });
+            client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
+            });
+            new_a_id++;
+            client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res){
+            });
           });
         });
       }
