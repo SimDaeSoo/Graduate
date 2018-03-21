@@ -145,7 +145,7 @@ app.post('/message', function(req,res){
                 }
                 res.send(answer);
               });
-            }else if(content.split("#명사분석")[1] != undefined){
+            }else if(content.split("#분석모드")[1] != undefined){
               system_mode = 2;
               client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
@@ -165,6 +165,15 @@ app.post('/message', function(req,res){
                 }
                 res.send(answer);
               });
+            }else if(content.split("#평균유사도")[1] != undefined){
+              client.query('SELECT * FROM Count_Table',function(err,q_res){
+                answer = {
+                  "message":{
+                    "text":"평균유사도 : " + (q_res[0].tot_avg_score / q_res[0].tot_answer_cnt).toFixed(2)
+                  }
+                }
+                res.send(answer);
+              }
             }else{
 
               if(system_mode == 1){
