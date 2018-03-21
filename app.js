@@ -255,9 +255,18 @@ app.post('/message', function(req,res){
                 client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity+",tot_answer_cnt = tot_answer_cnt + 1",function(err,q_res){
                 });
 
-                answer = {
-                  "message":{
-                    "text":Answer_tbl[Similarity_Q_Id].answer + " [유사도 : " +Similarity+"% ]" // in case 'text'
+                if(Similarity <=30)
+                {
+                  answer = {
+                    "message":{
+                      "text":"유사도 : [매우낮음]\n응답성이 떨어집니다.\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                    }
+                  }
+                }else{
+                  answer = {
+                    "message":{
+                      "text":Answer_tbl[Similarity_Q_Id].answer + " [유사도 : " +Similarity+"% ]" // in case 'text'
+                    }
                   }
                 }
               }
