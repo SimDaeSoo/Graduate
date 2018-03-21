@@ -135,7 +135,7 @@ app.post('/message', function(req,res){
               client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"모드변경"
+                    "text":"학습 모드로 변경\nHello"
                   }
                 }
                 res.send(answer);
