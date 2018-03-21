@@ -197,7 +197,7 @@ app.post('/message', function(req,res){
                 Table_res[key_word_index].q_3 = "";
                 Table_res[key_word_index].q_4 = "";
                 Temp_Union -= key_word_simila;
-                Temp_Inersection += key_word_simila;
+                TempIntersection += key_word_simila;
               }
 
               var Temp_Similarity = TempIntersection/Temp_Union;
