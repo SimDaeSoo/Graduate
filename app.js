@@ -255,28 +255,28 @@ app.post('/message', function(req,res){
                 client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity+",tot_answer_cnt = tot_answer_cnt + 1",function(err,q_res){
                 });
 
-                if(Similarity <50 && TempIntersection+Temp_Union <= 6)
+                if(Similarity <55 && TempIntersection+Temp_Union <= 10)
                 {
                   answer = {
                     "message":{
                       "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
-                }else if(Similarity <43 && TempIntersection+Temp_Union <= 9)
+                }else if(Similarity <47 && TempIntersection+Temp_Union <= 13)
                 {
                   answer = {
                     "message":{
                       "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
-                }else if(Similarity <36 && TempIntersection+Temp_Union <= 12)
+                }else if(Similarity <39 && TempIntersection+Temp_Union <= 16)
                 {
                   answer = {
                     "message":{
                       "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
-                }else if(Similarity < 29 &&  TempIntersection+Temp_Union <= 15){
+                }else if(Similarity < 32 &&  TempIntersection+Temp_Union <= 19){
                   answer = {
                     "message":{
                       "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
