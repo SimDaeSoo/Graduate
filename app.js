@@ -105,10 +105,10 @@ app.post('/message', function(req,res){
 
           client.query('SELECT * FROM Count_Table',function(err,res){
             new_a_id = res[0].tot_q;
-            var A_Arr = [];
-            A_Arr.push(new_a_id);
-            A_Arr.push(temp_a);
-            console.log(A_Arr);
+            var toQuery = "";
+            toQuery+='(\''+new_a_id+'\')';
+            toQuery+='(\''+temp_a+'\')';
+            console.log(toQuery);
             // client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
             // });
           });
