@@ -178,10 +178,10 @@ app.post('/message', function(req,res){
                   }else if(Table_res[k].id == i){
                     Temp_Union = Table_res[k].q_length + result.length;
                     var temp_simila = 0;
-                    if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
-                    if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
-                    if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
-                    if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
+                    if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;console.log("1");}
+                    if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;console.log("2");}
+                    if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;console.log("3");}
+                    if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;console.log("4");}
 
                     if(key_word_simila < temp_simila){
                       key_word_simila = temp_simila;
@@ -208,6 +208,7 @@ app.post('/message', function(req,res){
             }
             console.log(result);
             console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
+            console.log("INTER : " + TempIntersection + " , UNION : " + Temp_Union);
 
             answer = {
               "message":{
