@@ -233,7 +233,7 @@ app.post('/message', function(req,res){
 
                 console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
                 Similarity = (Similarity*100).toFixed(2);
-                client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity,function(err,q_res){
+                client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity+",tot_answer_cnt = tot_answer_cnt + 1",function(err,q_res){
                 });
 
                 answer = {
