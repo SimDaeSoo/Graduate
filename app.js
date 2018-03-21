@@ -199,6 +199,7 @@ app.post('/message', function(req,res){
                 Temp_Union -= key_word_simila;
                 TempIntersection += key_word_simila;
               }
+              console.log("INTER : " + TempIntersection + " , UNION : " + Temp_Union);
 
               var Temp_Similarity = TempIntersection/Temp_Union;
               if(Similarity < Temp_Similarity){
@@ -208,7 +209,6 @@ app.post('/message', function(req,res){
             }
             console.log(result);
             console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
-            console.log("INTER : " + TempIntersection + " , UNION : " + Temp_Union);
 
             answer = {
               "message":{
