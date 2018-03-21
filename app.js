@@ -240,10 +240,10 @@ app.post('/message', function(req,res){
                   }
 
                   var Temp_Similarity = TempIntersection/Temp_Union;
-                  if(Similarity+0.05 < Temp_Similarity){
+                  if(Similarity+0.01 < Temp_Similarity){
                     Similarity = Temp_Similarity;
                     Similarity_Q_Id = i;
-                  }else if(Similarity+0.05 >= Temp_Similarity && Similarity <= Temp_Similarity){
+                  }else if(Similarity+0.01 >= Temp_Similarity && Similarity <= Temp_Similarity){
                     if(Math.random() < 0.5){
                       Similarity = Temp_Similarity;
                       Similarity_Q_Id = i;
