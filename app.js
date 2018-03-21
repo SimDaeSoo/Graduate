@@ -34,8 +34,6 @@ app.post('/message', function(req,res){
   var toStringRes = "";
   var system_mode;
   var learn_error = 0;
-  console.log('req : '+JSONtoString(req));
-  console.log('res : '+JSONtoString(res));
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
@@ -363,15 +361,3 @@ app.get('/home', function(req, res) {
 app.listen(8080,function(){
   console.log('8080 포트 서버 연결 완료!.');
 });
-
-//-----------------------------------------------------------------------------
-function JSONtoString(object) {
-  var results = [];
-  for (var property in object) {
-    var value = object[property];
-    if (value){
-      results.push(property.toString() + ': ' + value);
-    }
-  }
-  return '{' + results.join(', ') + '}';
-}
