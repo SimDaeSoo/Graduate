@@ -94,22 +94,21 @@ app.post('/message', function(req,res){
             }
             //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
             client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
-            });
-          });
-        });
+              mecab.parse(temp_a, function(err, result) {
+                var new_a_id = 0; // 비동기니까 잘 처리할 것.
 
-        mecab.parse(temp_a, function(err, result) {
-          var new_a_id = 0; // 비동기니까 잘 처리할 것.
-
-          client.query('SELECT * FROM Count_Table',function(err,res){
-            new_a_id = res[0].tot_q;
-            var toQuery = "";
-            toQuery+='(\''+new_a_id+'\'';
-            toQuery+=',\''+temp_a+'\')';
-            client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
-            });
-            new_a_id++;
-            client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res){
+                client.query('SELECT * FROM Count_Table',function(err,res){
+                  new_a_id = res[0].tot_q;
+                  var toQuery = "";
+                  toQuery+='(\''+new_a_id+'\'';
+                  toQuery+=',\''+temp_a+'\')';
+                  client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
+                  });
+                  new_a_id++;
+                  client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res){
+                  });
+                });
+              });
             });
           });
         });
