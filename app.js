@@ -220,7 +220,7 @@ app.post('/message', function(req,res){
 
                         var total_length = result[j][0].length*0.5+result[j][1].length*0.3+result[j][2].length*0.1+result[j][3].length*0.1;
 
-                        temp_simila = temp_simial / total_length;
+                        temp_simila = temp_simila / total_length;
 
                         if(key_word_simila < temp_simila){
                           key_word_simila = temp_simila;
