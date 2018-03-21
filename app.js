@@ -135,7 +135,7 @@ app.post('/message', function(req,res){
               client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"학습 모드로 변경\nHello"
+                    "text":"<System : 학습 모드로 변경>\nInput : {Question} @@ {Answer}\nEx) 오늘뭐해? @@ 전 밥먹어요!"
                   }
                 }
                 res.send(answer);
@@ -145,17 +145,17 @@ app.post('/message', function(req,res){
               client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"모드변경"
+                    "text":"<System : 분석모드 변경>"
                   }
                 }
                 res.send(answer);
               });
-            }else if(content.split("#기본모드")[1] != undefined){
+            }else if(content.split("#회화모드")[1] != undefined){
               system_mode = 0;
               client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"모드변경"
+                    "text":"<System : 회화모드 변경>"
                   }
                 }
                 res.send(answer);
@@ -164,22 +164,29 @@ app.post('/message', function(req,res){
               client.query('SELECT * FROM Count_Table',function(err,q_res){
                 answer = {
                   "message":{
-                    "text":"평균유사도 : " + (q_res[0].tot_avg_score / q_res[0].tot_answer_cnt).toFixed(2)
+                    "text":"<System : 평균유사도>\n" + (q_res[0].tot_avg_score / q_res[0].tot_answer_cnt).toFixed(2)
                   }
                 }
                 res.send(answer);
               });
+            }else if(content.split("#모드")[1] != undefined){
+                answer = {
+                  "message":{
+                    "text":"<System : 모드>\n#회화모드\n#학습모드\n#분석모드\n#평균유사도\n#모드"
+                  }
+                }
+                res.send(answer);
             }else{
               if(system_mode == 1){
                 answer = {
                   "message":{
-                    "text":"System - 학습모드" // in case 'text'
+                    "text":"<System : 학습완료>" // in case 'text'
                   }
                 }
               }else if(system_mode == 2){
                 answer = {
                   "message":{
-                    "text":"명사분석 결과 : "+toStringRes // in case 'text'
+                    "text":"<System : 형태소 분석 결과>\n"+toStringRes // in case 'text'
                   }
                 }
               }else if(system_mode == 0){
