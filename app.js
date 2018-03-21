@@ -206,6 +206,7 @@ app.post('/message', function(req,res){
                 Similarity_Q_Id = i;
               }
             }
+            console.log(result);
             console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
 
             answer = {
