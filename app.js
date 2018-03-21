@@ -137,7 +137,7 @@ app.post('/message', function(req,res){
 
             if(content.split("#학습모드")[1] != undefined){
               system_mode = 1;
-              client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
                     "text":"모드변경"
@@ -147,7 +147,7 @@ app.post('/message', function(req,res){
               });
             }else if(content.split("#명사분석")[1] != undefined){
               system_mode = 2;
-              client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
                     "text":"모드변경"
@@ -157,7 +157,7 @@ app.post('/message', function(req,res){
               });
             }else if(content.split("#기본모드")[1] != undefined){
               system_mode = 0;
-              client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,q_res){
                 answer = {
                   "message":{
                     "text":"모드변경"
@@ -233,7 +233,7 @@ app.post('/message', function(req,res){
 
                 console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
                 Similarity = (Similarity*100).toFixed(2);
-                client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity,function(err,res){
+                client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity,function(err,q_res){
                 });
 
                 answer = {
