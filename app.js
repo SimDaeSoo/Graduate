@@ -66,44 +66,36 @@ app.post('/message', function(req,res){
             new_q_id = res[0].tot_q;
 
             console.log("New Q ID is a : " + new_q_id);
-            var id = "";
-            var q_index = "";
-            var q_length = "";
-            var q_1 = "";
-            var q_2 = "";
-            var q_3 = "";
-            var q_4 = "";
-            var q_count = "";
-            var q_type = "";
+            var toQuery = "";
 
             for( var key in result ) {
               if(key == 0){
-                id += '\''+new_q_id+'\'';
-                q_index += '\''+index+'\'';
+                toQuery += '(\''+new_q_id+'\'';
+                toQuery += ',\''+index+'\'';
                 index++;
-                q_length += '\''+length+'\'';
-                q_1 += '\''+result[key][0]+'\'';
-                q_2 += '\''+result[key][1]+'\'';
-                q_3 += '\''+result[key][2]+'\'';
-                q_4 += '\''+result[key][3]+'\'';
-                q_count += '\''+1+'\''; // Search count 수.
-                q_type += '\''+"Q"+'\''; // 의사소통 목적.
+                toQuery += ',\''+length+'\'';
+                toQuery += ',\''+result[key][0]+'\'';
+                toQuery += ',\''+result[key][1]+'\'';
+                toQuery += ',\''+result[key][2]+'\'';
+                toQuery += ',\''+result[key][3]+'\'';
+                toQuery += ',\''+1+'\''; // Search count 수.
+                toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
               }else{
-                id += ',\''+new_q_id+'\'';
-                q_index += ',\''+index+'\'';
+                toQuery += ',(\''+new_q_id+'\'';
+                toQuery += ',\''+index+'\'';
                 index++;
-                q_length += ',\''+length+'\'';
-                q_1 += ',\''+result[key][0]+'\'';
-                q_2 += ',\''+result[key][1]+'\'';
-                q_3 += ',\''+result[key][2]+'\'';
-                q_4 += ',\''+result[key][3]+'\'';
-                q_count += ',\''+1+'\''; // Search count 수.
-                q_type += ',\''+"Q"+'\''; // 의사소통 목적.
+                toQuery += ',\''+length+'\'';
+                toQuery += ',\''+result[key][0]+'\'';
+                toQuery += ',\''+result[key][1]+'\'';
+                toQuery += ',\''+result[key][2]+'\'';
+                toQuery += ',\''+result[key][3]+'\'';
+                toQuery += ',\''+1+'\''; // Search count 수.
+                toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
               }
             }
-            console.log(id + q_1 + q_count + q_type);
+            console.log(toQuery);
             //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
-            // client.query('INSERT INTO Q_Table(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
+            // client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
             // });
           });
         });
