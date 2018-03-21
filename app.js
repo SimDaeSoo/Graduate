@@ -37,7 +37,7 @@ app.post('/message', function(req,res){
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
-  console.log(new Date() + " , user_key : "+user_key);
+  // console.log(new Date() + " , user_key : "+user_key);
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
@@ -202,6 +202,7 @@ app.post('/message', function(req,res){
                   for(j=0;j<result.length;j++){
                     var key_word_simila = 0;
                     var key_word_index = 0;
+                    var key_word_total_length = 0;
 
                     for(k=0;k<Table_res.length;k++){
                       if(Table_res[k].id < i){
@@ -219,8 +220,8 @@ app.post('/message', function(req,res){
                         if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1*result[j][3].length;}
 
                         var total_length = result[j][0].length+result[j][1].length+result[j][2].length+result[j][3].length;
-                        temp_simila = temp_simila/total_length;
-                        if(key_word_simila < temp_simila){
+                        if(key_word_simila < temp_simila/total_length){
+                          key_word_total_length = total_length;
                           key_word_simila = temp_simila;
                           key_word_index = k;
                         }
@@ -228,6 +229,7 @@ app.post('/message', function(req,res){
                         break;
                       }
                     }
+                    key_word_simila = key_word_simila / key_word_total_length;
 
                     Table_res[key_word_index].q_1 = "";
                     Table_res[key_word_index].q_2 = "";
