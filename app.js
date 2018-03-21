@@ -171,12 +171,14 @@ app.post('/message', function(req,res){
               for(j=0;j<result.length;j++){
                 var key_word_simila = 0;
                 var key_word_index = 0;
+                var flag = 0;
 
                 for(k=0;k<Table_res.length;k++){
                   if(Table_res[k].id < i){
                     k += Table_res[k].q_length-1;
                   }else if(Table_res[k].id == i){
-                    Temp_Union = Table_res[k].q_length + result.length;
+                    if(flag == 0){Temp_Union = Table_res[k].q_length + result.length;flag = 1;}
+
                     console.log("a:"+Temp_Union);
                     var temp_simila = 0;
                     if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;console.log("1");}
