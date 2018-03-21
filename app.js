@@ -33,6 +33,7 @@ app.post('/message', function(req,res){
   let content = decodeURIComponent(req.body.content); // user's message
   var toStringRes = "";
   var system_mode;
+  var learn_error = 0;
   // console.log('req : '+req);
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
@@ -57,62 +58,69 @@ app.post('/message', function(req,res){
       }
 
       if(temp_q != undefined && temp_a != undefined){
-        mecab.parse(temp_q, function(err, result) {
-          var length = result.length;
-          var index = 1;
-          var Q_Type = '';
-          var new_q_id = 0; // 비동기니까 잘 처리할 것.
+        if(temp_q.length>0 && temp_a.length>0){
+          mecab.parse(temp_q, function(err, result) {
+            var length = result.length;
+            var index = 1;
+            var Q_Type = '';
+            var new_q_id = 0; // 비동기니까 잘 처리할 것.
 
-          client.query('SELECT * FROM Count_Table',function(err,res){
-            new_q_id = res[0].tot_q;
+            client.query('SELECT * FROM Count_Table',function(err,res){
+              new_q_id = res[0].tot_q;
 
-            var toQuery = "";
+              var toQuery = "";
 
-            for( var key in result ) {
-              if(key == 0){
-                toQuery += '(\''+new_q_id+'\'';
-                toQuery += ',\''+index+'\'';
-                index++;
-                toQuery += ',\''+length+'\'';
-                toQuery += ',\''+result[key][0]+'\'';
-                toQuery += ',\''+result[key][1]+'\'';
-                toQuery += ',\''+result[key][2]+'\'';
-                toQuery += ',\''+result[key][3]+'\'';
-                toQuery += ',\''+1+'\''; // Search count 수.
-                toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
-              }else{
-                toQuery += ',(\''+new_q_id+'\'';
-                toQuery += ',\''+index+'\'';
-                index++;
-                toQuery += ',\''+length+'\'';
-                toQuery += ',\''+result[key][0]+'\'';
-                toQuery += ',\''+result[key][1]+'\'';
-                toQuery += ',\''+result[key][2]+'\'';
-                toQuery += ',\''+result[key][3]+'\'';
-                toQuery += ',\''+1+'\''; // Search count 수.
-                toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
+              for( var key in result ) {
+                if(key == 0){
+                  toQuery += '(\''+new_q_id+'\'';
+                  toQuery += ',\''+index+'\'';
+                  index++;
+                  toQuery += ',\''+length+'\'';
+                  toQuery += ',\''+result[key][0]+'\'';
+                  toQuery += ',\''+result[key][1]+'\'';
+                  toQuery += ',\''+result[key][2]+'\'';
+                  toQuery += ',\''+result[key][3]+'\'';
+                  toQuery += ',\''+1+'\''; // Search count 수.
+                  toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
+                }else{
+                  toQuery += ',(\''+new_q_id+'\'';
+                  toQuery += ',\''+index+'\'';
+                  index++;
+                  toQuery += ',\''+length+'\'';
+                  toQuery += ',\''+result[key][0]+'\'';
+                  toQuery += ',\''+result[key][1]+'\'';
+                  toQuery += ',\''+result[key][2]+'\'';
+                  toQuery += ',\''+result[key][3]+'\'';
+                  toQuery += ',\''+1+'\''; // Search count 수.
+                  toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
+                }
               }
-            }
-            //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
-            client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
-              mecab.parse(temp_a, function(err, result) {
-                var new_a_id = 0; // 비동기니까 잘 처리할 것.
+              //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
+              client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
+                console.log(query_res);
+                mecab.parse(temp_a, function(err, result) {
+                  var new_a_id = 0; // 비동기니까 잘 처리할 것.
 
-                client.query('SELECT * FROM Count_Table',function(err,res){
-                  new_a_id = res[0].tot_q;
-                  var toQuery = "";
-                  toQuery+='(\''+new_a_id+'\'';
-                  toQuery+=',\''+temp_a+'\')';
-                  client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
-                  });
-                  new_a_id++;
-                  client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res){
+                  client.query('SELECT * FROM Count_Table',function(err,res){
+                    new_a_id = res[0].tot_q;
+                    var toQuery = "";
+                    toQuery+='(\''+new_a_id+'\'';
+                    toQuery+=',\''+temp_a+'\')';
+                    client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
+                    });
+                    new_a_id++;
+                    client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res){
+                    });
                   });
                 });
               });
             });
           });
-        });
+        }else{
+          learn_error = 1;
+        }
+      }else{
+        learn_error = 1;
       }
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -179,9 +187,17 @@ app.post('/message', function(req,res){
                 res.send(answer);
             }else{
               if(system_mode == 1){
-                answer = {
-                  "message":{
-                    "text":"<System : 학습완료>" // in case 'text'
+                if(learn_error == 1){
+                  answer = {
+                    "message":{
+                      "text":"<System : 학습실패>" // in case 'text'
+                    }
+                  }
+                }else{
+                  answer = {
+                    "message":{
+                      "text":"<System : 학습완료>" // in case 'text'
+                    }
                   }
                 }
               }else if(system_mode == 2){
@@ -289,9 +305,19 @@ app.post('/message', function(req,res){
                     }
                   }
                 }else{
+                  var level = "";
+                  if(Similarity < 45){
+                    level = "낮음";
+                  }else if(Similarity < 65){
+                    level = "보통";
+                  }else if(Similarity < 85){
+                    level = "높음";
+                  }else{
+                    level = "매우높음";
+                  }
                   answer = {
                     "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer + " [유사도 : " +Similarity+"% ]" // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+"]" // in case 'text'
                     }
                   }
                 }
