@@ -79,29 +79,29 @@ app.post('/message', function(req,res){
             for( var key in result ) {
               if(key == 0){
                 id += '\''+new_q_id+'\'';
-                q_index = '\''+index+'\'';
+                q_index += '\''+index+'\'';
                 index++;
-                q_length = '\''+length+'\'';
-                q_1 = '\''+result[key][0]+'\'';
-                q_2 = '\''+result[key][1]+'\'';
-                q_3 = '\''+result[key][2]+'\'';
-                q_4 = '\''+result[key][3]+'\'';
-                q_count = '\''+1+'\''; // Search count 수.
-                q_type = '\''+"Q"+'\''; // 의사소통 목적.
+                q_length += '\''+length+'\'';
+                q_1 += '\''+result[key][0]+'\'';
+                q_2 += '\''+result[key][1]+'\'';
+                q_3 += '\''+result[key][2]+'\'';
+                q_4 += '\''+result[key][3]+'\'';
+                q_count += '\''+1+'\''; // Search count 수.
+                q_type += '\''+"Q"+'\''; // 의사소통 목적.
               }else{
                 id += ',\''+new_q_id+'\'';
-                q_index = ',\''+index+'\'';
+                q_index += ',\''+index+'\'';
                 index++;
-                q_length = ',\''+length+'\'';
-                q_1 = ',\''+result[key][0]+'\'';
-                q_2 = ',\''+result[key][1]+'\'';
-                q_3 = ',\''+result[key][2]+'\'';
-                q_4 = ',\''+result[key][3]+'\'';
-                q_count = ',\''+1+'\''; // Search count 수.
-                q_type = ',\''+"Q"+'\''; // 의사소통 목적.
+                q_length += ',\''+length+'\'';
+                q_1 += ',\''+result[key][0]+'\'';
+                q_2 += ',\''+result[key][1]+'\'';
+                q_3 += ',\''+result[key][2]+'\'';
+                q_4 += ',\''+result[key][3]+'\'';
+                q_count += ',\''+1+'\''; // Search count 수.
+                q_type += ',\''+"Q"+'\''; // 의사소통 목적.
               }
             }
-            console.log(id + q_index + q_length);
+            console.log(id + q_1 + q_count + q_type);
             //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
             // client.query('INSERT INTO Q_Table(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
             // });
