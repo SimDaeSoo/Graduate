@@ -212,11 +212,13 @@ app.post('/message', function(req,res){
                         }
 
                         var temp_simila = 0;
-                        if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
-                        if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
-                        if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
-                        if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
+                        if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5*result[j][0].length;}
+                        if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3*result[j][1].length;}
+                        if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1*result[j][2].length;}
+                        if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1*result[j][3].length;}
 
+                        var total_length = result[j][0].length+result[j][1].length+result[j][2].length+result[j][3].length;
+                        temp_simila = temp_simila/total_length;
                         if(key_word_simila < temp_simila){
                           key_word_simila = temp_simila;
                           key_word_index = k;
