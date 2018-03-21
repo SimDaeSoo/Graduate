@@ -37,6 +37,7 @@ app.post('/message', function(req,res){
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
+  console.log(new Date() + " , user_key : "+user_key);
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
