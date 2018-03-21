@@ -34,7 +34,8 @@ app.post('/message', function(req,res){
   var toStringRes = "";
   var system_mode;
   var learn_error = 0;
-  // console.log('req : '+req);
+  console.log('req : '+req);
+  console.log('res : '+res);
   // console.log('user_key : '+user_key);
   // console.log('type : '+type);
   // console.log('input : '+content);
