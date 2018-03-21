@@ -120,106 +120,109 @@ app.post('/message', function(req,res){
       }
     }
     //--------------------------------------------------------------------------------------------------------------------------
-    client.query('SELECT * FROM Q_Table',function(err,Table_res){
-      mecab.parse(content, function(err, result) {
-        var q_length = 0; // 비동기니까 잘 처리할 것.
-        //--------------------------------------------------------------------------------
-        client.query('SELECT * FROM Count_Table',function(err,count_res){
-          q_length = count_res[0].tot_q;
-          if(system_mode == 2){
-            for( var key in result ) {
-              toStringRes += key + '['+result[key]+'] ';
-            }
-          }
+    client.query('SELECT * FROM A_Table',function(err,Answer_tbl){
+      client.query('SELECT * FROM Q_Table',function(err,Table_res){
+        mecab.parse(content, function(err, result) {
+          var q_length = 0; // 비동기니까 잘 처리할 것.
           //--------------------------------------------------------------------------------
-          if(content.split("#학습모드")[1] != undefined){
-            system_mode = 1;
-            client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-            });
-          }else if(content.split("#명사분석")[1] != undefined){
-            system_mode = 2;
-            client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-            });
-          }else if(content.split("#기본모드")[1] != undefined){
-            system_mode = 0;
-            client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-            });
-          }
-          //--------------------------------------------------------------------------------
-          var answer;
-
-          if(system_mode == 1){
-            answer = {
-              "message":{
-                "text":"System - 학습모드" // in case 'text'
+          client.query('SELECT * FROM Count_Table',function(err,count_res){
+            q_length = count_res[0].tot_q;
+            if(system_mode == 2){
+              for( var key in result ) {
+                toStringRes += key + '['+result[key]+'] ';
               }
             }
-          }else if(system_mode == 2){
-            answer = {
-              "message":{
-                "text":"명사분석 결과 : "+toStringRes // in case 'text'
-              }
+            //--------------------------------------------------------------------------------
+            if(content.split("#학습모드")[1] != undefined){
+              system_mode = 1;
+              client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              });
+            }else if(content.split("#명사분석")[1] != undefined){
+              system_mode = 2;
+              client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              });
+            }else if(content.split("#기본모드")[1] != undefined){
+              system_mode = 0;
+              client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+              });
             }
-          }else if(system_mode == 0){
-            var Similarity = 0;
-            var Similarity_Q_Id = 0;
+            //--------------------------------------------------------------------------------
+            var answer;
 
-            for(i=0;i<q_length;i++){
-              var Temp_Union = 0;
-              var TempIntersection = 0;
-              var flag = 0;
+            if(system_mode == 1){
+              answer = {
+                "message":{
+                  "text":"System - 학습모드" // in case 'text'
+                }
+              }
+            }else if(system_mode == 2){
+              answer = {
+                "message":{
+                  "text":"명사분석 결과 : "+toStringRes // in case 'text'
+                }
+              }
+            }else if(system_mode == 0){
+              var Similarity = 0;
+              var Similarity_Q_Id = 0;
 
-              for(j=0;j<result.length;j++){
-                var key_word_simila = 0;
-                var key_word_index = 0;
+              for(i=0;i<q_length;i++){
+                var Temp_Union = 0;
+                var TempIntersection = 0;
+                var flag = 0;
 
-                for(k=0;k<Table_res.length;k++){
-                  if(Table_res[k].id < i){
-                    k += Table_res[k].q_length-1;
-                  }else if(Table_res[k].id == i){
-                    if(flag == 0){
-                      Temp_Union = Table_res[k].q_length + result.length;
-                      flag = 1;
+                for(j=0;j<result.length;j++){
+                  var key_word_simila = 0;
+                  var key_word_index = 0;
+
+                  for(k=0;k<Table_res.length;k++){
+                    if(Table_res[k].id < i){
+                      k += Table_res[k].q_length-1;
+                    }else if(Table_res[k].id == i){
+                      if(flag == 0){
+                        Temp_Union = Table_res[k].q_length + result.length;
+                        flag = 1;
+                      }
+
+                      var temp_simila = 0;
+                      if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
+                      if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
+                      if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
+                      if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
+
+                      if(key_word_simila < temp_simila){
+                        key_word_simila = temp_simila;
+                        key_word_index = k;
+                      }
+                    }else if(Table_res[k].id > i){
+                      break;
                     }
-
-                    var temp_simila = 0;
-                    if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;console.log("1");}
-                    if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;console.log("2");}
-                    if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1;console.log("3");}
-                    if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1;console.log("4");}
-
-                    if(key_word_simila < temp_simila){
-                      key_word_simila = temp_simila;
-                      key_word_index = k;
-                    }
-                  }else if(Table_res[k].id > i){
-                    break;
                   }
+
+                  Table_res[key_word_index].q_1 = "";
+                  Table_res[key_word_index].q_2 = "";
+                  Table_res[key_word_index].q_3 = "";
+                  Table_res[key_word_index].q_4 = "";
+                  Temp_Union -= key_word_simila;
+                  TempIntersection += key_word_simila;
                 }
 
-                Table_res[key_word_index].q_1 = "";
-                Table_res[key_word_index].q_2 = "";
-                Table_res[key_word_index].q_3 = "";
-                Table_res[key_word_index].q_4 = "";
-                Temp_Union -= key_word_simila;
-                TempIntersection += key_word_simila;
+                var Temp_Similarity = TempIntersection/Temp_Union;
+                if(Similarity < Temp_Similarity){
+                  Similarity = Temp_Similarity;
+                  Similarity_Q_Id = i;
+                }
               }
 
-              var Temp_Similarity = TempIntersection/Temp_Union;
-              if(Similarity < Temp_Similarity){
-                Similarity = Temp_Similarity;
-                Similarity_Q_Id = i;
-              }
-            }
-            console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
+              console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
 
-            answer = {
-              "message":{
-                "text":"대화 미구현" // in case 'text'
+              answer = {
+                "message":{
+                  "text":Answer_tbl[Similarity_Q_Id].answer + " [유사도 : " +Similarity.toFixed(2)+" ]" // in case 'text'
+                }
               }
             }
-          }
-          res.send(answer);
+            res.send(answer);
+          });
         });
       });
     });
