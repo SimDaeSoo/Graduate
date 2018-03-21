@@ -167,19 +167,21 @@ app.post('/message', function(req,res){
             for(i=0;i<q_length;i++){
               var Temp_Union = 0;
               var TempIntersection = 0;
+              var flag = 0;
 
               for(j=0;j<result.length;j++){
                 var key_word_simila = 0;
                 var key_word_index = 0;
-                var flag = 0;
 
                 for(k=0;k<Table_res.length;k++){
                   if(Table_res[k].id < i){
                     k += Table_res[k].q_length-1;
                   }else if(Table_res[k].id == i){
-                    if(flag == 0){Temp_Union = Table_res[k].q_length + result.length;flag = 1;}
+                    if(flag == 0){
+                      Temp_Union = Table_res[k].q_length + result.length;
+                      flag = 1;
+                    }
 
-                    console.log("a:"+Temp_Union);
                     var temp_simila = 0;
                     if(Table_res[k].q_1 == result[j][0]){temp_simila+=0.5;console.log("1");}
                     if(Table_res[k].q_2 == result[j][1]){temp_simila+=0.3;console.log("2");}
@@ -201,9 +203,7 @@ app.post('/message', function(req,res){
                 Table_res[key_word_index].q_4 = "";
                 Temp_Union -= key_word_simila;
                 TempIntersection += key_word_simila;
-                console.log("b:"+Temp_Union);
               }
-              console.log("INTER : " + TempIntersection + " , UNION : " + Temp_Union);
 
               var Temp_Similarity = TempIntersection/Temp_Union;
               if(Similarity < Temp_Similarity){
@@ -211,7 +211,6 @@ app.post('/message', function(req,res){
                 Similarity_Q_Id = i;
               }
             }
-            console.log(result);
             console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
 
             answer = {
