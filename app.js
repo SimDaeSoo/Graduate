@@ -47,6 +47,7 @@ app.post('/message', function(req,res){
       system_mode = query_res[0].sys_status;
     }
 
+    //--------------------------------------------------------------------------------------------------------------------------
     if(system_mode == 1){
       var temp_a = content.split("#A")[1];
       var temp_q = content.split("#A")[0];
@@ -118,54 +119,104 @@ app.post('/message', function(req,res){
         });
       }
     }
-
-    mecab.parse(content, function(err, result) {
-      var new_q_id = 0; // 비동기니까 잘 처리할 것.
-      //--------------------------------------------------------------------------------
-      client.query('SELECT * FROM Count_Table',function(err,count_res){
-        new_q_id = count_res[0].tot_q;
-        if(system_mode == 2){
-          for( var key in result ) {
-            toStringRes += key + '['+result[key]+'] ';
-          }
-        }
+    //--------------------------------------------------------------------------------------------------------------------------
+    client.query('SELECT * FROM Q_Table',function(err,Table_res){
+      mecab.parse(content, function(err, result) {
+        var q_length = 0; // 비동기니까 잘 처리할 것.
         //--------------------------------------------------------------------------------
-        if(content.split("#학습모드")[1] != undefined){
-          system_mode = 1;
-          client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-          });
-        }else if(content.split("#명사분석")[1] != undefined){
-          system_mode = 2;
-          client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-          });
-        }else if(content.split("#기본모드")[1] != undefined){
-          system_mode = 0;
-          client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
-          });
-        }
-        //--------------------------------------------------------------------------------
-        var answer;
+        client.query('SELECT * FROM Count_Table',function(err,count_res){
+          q_length = count_res[0].tot_q;
+          if(system_mode == 2){
+            for( var key in result ) {
+              toStringRes += key + '['+result[key]+'] ';
+            }
+          }
+          //--------------------------------------------------------------------------------
+          if(content.split("#학습모드")[1] != undefined){
+            system_mode = 1;
+            client.query('UPDATE Sys_User SET sys_status=1 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+            });
+          }else if(content.split("#명사분석")[1] != undefined){
+            system_mode = 2;
+            client.query('UPDATE Sys_User SET sys_status=2 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+            });
+          }else if(content.split("#기본모드")[1] != undefined){
+            system_mode = 0;
+            client.query('UPDATE Sys_User SET sys_status=0 WHERE user_key='+'\''+user_key+'\'',function(err,res){
+            });
+          }
+          //--------------------------------------------------------------------------------
+          var answer;
 
-        if(system_mode == 1){
-          answer = {
-            "message":{
-              "text":"System - 학습모드" // in case 'text'
+          if(system_mode == 1){
+            answer = {
+              "message":{
+                "text":"System - 학습모드" // in case 'text'
+              }
+            }
+          }else if(system_mode == 2){
+            answer = {
+              "message":{
+                "text":"명사분석 결과 : "+toStringRes // in case 'text'
+              }
+            }
+          }else if(system_mode == 0){
+            var Similarity = 0;
+            var Similarity_Q_Id = 0;
+
+            for(i=0;i<q_length;i++){
+              var temp_res = Table_res;
+              var Temp_Union = 0;
+              var Temp_Inersection = 0;
+
+              for(j=0;j<result.length;j++){
+                var key_word_simila = 0;
+                var key_word_index = 0;
+
+                for(k=0;k<temp_res.length;k++){
+                  if(temp_res[k].id < i){
+                    k += temp_res[k].length-2;
+                  }else if(temp_res[k].id == i){
+                    Temp_Union = temp_res[k].length + result.length;
+                    var temp_simila = 0;
+                    if(temp_res[k].q_1 == result[j].[0]){temp_simila+=0.5;}
+                    if(temp_res[k].q_2 == result[j].[1]){temp_simila+=0.3;}
+                    if(temp_res[k].q_3 == result[j].[2]){temp_simila+=0.1;}
+                    if(temp_res[k].q_4 == result[j].[3]){temp_simila+=0.1;}
+
+                    if(key_word_simila < temp_simila){
+                      key_word_simila = temp_simila;
+                      key_word_index = k;
+                    }
+                  }else if(temp_res[k].id > i){
+                    break;
+                  }
+                }
+
+                temp_res[key_word_index].q_1 = "";
+                temp_res[key_word_index].q_2 = "";
+                temp_res[key_word_index].q_3 = "";
+                temp_res[key_word_index].q_4 = "";
+                Temp_Union -= key_word_simila;
+                Temp_Inersection += key_word_simila;
+              }
+
+              var Temp_Similarity = TempIntersection/Temp_Union;
+              if(Similarity < Temp_Similarity){
+                Similarity = Temp_Similarity;
+                Similarity_Q_Id = i;
+              }
+            }
+            console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
+
+            answer = {
+              "message":{
+                "text":"대화 미구현" // in case 'text'
+              }
             }
           }
-        }else if(system_mode == 2){
-          answer = {
-            "message":{
-              "text":"명사분석 결과 : "+toStringRes // in case 'text'
-            }
-          }
-        }else{
-          answer = {
-            "message":{
-              "text":"대화 미구현" // in case 'text'
-            }
-          }
-        }
-        res.send(answer);
+          res.send(answer);
+        });
       });
     });
   });
