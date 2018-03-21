@@ -202,7 +202,6 @@ app.post('/message', function(req,res){
                   for(j=0;j<result.length;j++){
                     var key_word_simila = 0;
                     var key_word_index = 0;
-                    var key_word_total_length = 0;
 
                     for(k=0;k<Table_res.length;k++){
                       if(Table_res[k].id < i){
@@ -219,9 +218,11 @@ app.post('/message', function(req,res){
                         if(Table_res[k].q_3 == result[j][2]){temp_simila+=0.1*result[j][2].length;}
                         if(Table_res[k].q_4 == result[j][3]){temp_simila+=0.1*result[j][3].length;}
 
-                        var total_length = result[j][0].length+result[j][1].length+result[j][2].length+result[j][3].length;
-                        if(key_word_simila < temp_simila/total_length){
-                          key_word_total_length = total_length;
+                        var total_length = result[j][0].length*0.5+result[j][1].length*0.3+result[j][2].length*0.1+result[j][3].length*0.1;
+
+                        temp_simila = temp_simial / total_length;
+
+                        if(key_word_simila < temp_simila){
                           key_word_simila = temp_simila;
                           key_word_index = k;
                         }
@@ -229,7 +230,6 @@ app.post('/message', function(req,res){
                         break;
                       }
                     }
-                    key_word_simila = key_word_simila / key_word_total_length;
 
                     Table_res[key_word_index].q_1 = "";
                     Table_res[key_word_index].q_2 = "";
