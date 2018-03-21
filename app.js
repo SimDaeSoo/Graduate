@@ -50,7 +50,7 @@ app.post('/message', function(req,res){
     if(system_mode == 1){
       var temp_a = content.split("#A")[1];
       var temp_q = content.split("#A")[0];
-      temp_q = content.split("#Q")[1];
+      temp_q = temp_q.split("#Q")[1];
       if(temp_q != undefined){
         content = temp_q;
       }
@@ -105,10 +105,6 @@ app.post('/message', function(req,res){
     }
 
     mecab.parse(content, function(err, result) {
-      var result_arr = [];
-      var length = result.length;
-      var index = 1;
-      var Q_Type = '';
       var new_q_id = 0; // 비동기니까 잘 처리할 것.
       //--------------------------------------------------------------------------------
       client.query('SELECT * FROM Count_Table',function(err,count_res){
