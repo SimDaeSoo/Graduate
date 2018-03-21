@@ -57,7 +57,7 @@ app.post('/message', function(req,res){
       }
 
       if(temp_q != undefined && temp_a != undefined){
-        if(temp_q.length>0 && temp_a.length>0){
+        if((temp_q.length>0 && temp_a.length>0)||(temp_q.length<100 && temp_a.length<100)){
           mecab.parse(temp_q, function(err, result) {
             var length = result.length;
             var index = 1;
