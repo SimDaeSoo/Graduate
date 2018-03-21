@@ -49,9 +49,7 @@ app.post('/message', function(req,res){
 
     if(system_mode == 1){
       var temp_a = content.split("#A")[1];
-      if(temp_a != undefined){
-        var temp_q = content.split("#A")[0];
-      }
+      var temp_q = content.split("#A")[0];
       temp_q = content.split("#Q")[1];
       if(temp_q != undefined){
         content = temp_q;
