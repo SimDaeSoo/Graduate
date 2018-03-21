@@ -97,8 +97,9 @@ app.post('/message', function(req,res){
               }
               //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
-                if(query_res.affectedRows > 0){
+                if(query_res.OkPacket.affectedRows > 0){
                 console.log(query_res);
+                console.log(query_res.OkPacket.affectedRows);
                   mecab.parse(temp_a, function(err, result) {
                     var new_a_id = 0; // 비동기니까 잘 처리할 것.
 
