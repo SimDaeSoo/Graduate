@@ -49,9 +49,8 @@ app.post('/message', function(req,res){
 
     //--------------------------------------------------------------------------------------------------------------------------
     if(system_mode == 1){
-      var temp_a = content.split("#A")[1];
-      var temp_q = content.split("#A")[0];
-      temp_q = temp_q.split("#Q")[1];
+      var temp_a = content.split("@@")[1];
+      var temp_q = content.split("@@")[0];
       if(temp_q != undefined){
         content = temp_q;
       }
@@ -66,7 +65,6 @@ app.post('/message', function(req,res){
           client.query('SELECT * FROM Count_Table',function(err,res){
             new_q_id = res[0].tot_q;
 
-            console.log("New Q ID is a : " + new_q_id);
             var toQuery = "";
 
             for( var key in result ) {
@@ -94,7 +92,6 @@ app.post('/message', function(req,res){
                 toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
               }
             }
-            console.log(toQuery);
             //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
             client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
             });
@@ -109,7 +106,6 @@ app.post('/message', function(req,res){
             var toQuery = "";
             toQuery+='(\''+new_a_id+'\'';
             toQuery+=',\''+temp_a+'\')';
-            console.log(toQuery);
             client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res){
             });
             new_a_id++;
@@ -239,7 +235,6 @@ app.post('/message', function(req,res){
                   }
                 }
 
-                console.log("simila : " + Similarity + " , Index : " + Similarity_Q_Id);
                 Similarity = (Similarity*100).toFixed(2);
                 client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity+",tot_answer_cnt = tot_answer_cnt + 1",function(err,q_res){
                 });
