@@ -173,7 +173,7 @@ app.post('/message', function(req,res){
                   }
                 }
                 res.send(answer);
-              }
+              });
             }else{
 
               if(system_mode == 1){
