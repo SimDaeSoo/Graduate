@@ -179,10 +179,10 @@ app.post('/message', function(req,res){
                   }else if(temp_res[k].id == i){
                     Temp_Union = temp_res[k].length + result.length;
                     var temp_simila = 0;
-                    if(temp_res[k].q_1 == result[j].[0]){temp_simila+=0.5;}
-                    if(temp_res[k].q_2 == result[j].[1]){temp_simila+=0.3;}
-                    if(temp_res[k].q_3 == result[j].[2]){temp_simila+=0.1;}
-                    if(temp_res[k].q_4 == result[j].[3]){temp_simila+=0.1;}
+                    if(temp_res[k].q_1 == result[j][0]){temp_simila+=0.5;}
+                    if(temp_res[k].q_2 == result[j][1]){temp_simila+=0.3;}
+                    if(temp_res[k].q_3 == result[j][2]){temp_simila+=0.1;}
+                    if(temp_res[k].q_4 == result[j][3]){temp_simila+=0.1;}
 
                     if(key_word_simila < temp_simila){
                       key_word_simila = temp_simila;
