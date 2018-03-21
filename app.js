@@ -57,7 +57,6 @@ app.post('/message', function(req,res){
 
       if(temp_q != undefined && temp_a != undefined){
         mecab.parse(temp_q, function(err, result) {
-          var result_arr = [];
           var length = result.length;
           var index = 1;
           var Q_Type = '';
@@ -67,23 +66,44 @@ app.post('/message', function(req,res){
             new_q_id = res[0].tot_q;
 
             console.log("New Q ID is a : " + new_q_id);
+            var id = "";
+            var q_index = "";
+            var q_length = "";
+            var q_1 = "";
+            var q_2 = "";
+            var q_3 = "";
+            var q_4 = "";
+            var q_count = "";
+            var q_type = "";
 
             for( var key in result ) {
-              var Q_Arr = [];
-              Q_Arr.push(new_q_id);
-              Q_Arr.push(index++);
-              Q_Arr.push(length);
-              Q_Arr.push(result[key][0]);
-              Q_Arr.push(result[key][1]);
-              Q_Arr.push(result[key][2]);
-              Q_Arr.push(result[key][3]);
-              Q_Arr.push(1); // Search count 수.
-              Q_Arr.push("Q"); // 의사소통 목적.
-
-              result_arr.push(Q_Arr);
+              if(key == 0){
+                id += '\''+new_q_id+'\'';
+                q_index = '\''+index+'\'';
+                index++;
+                q_length = '\''+length+'\'';
+                q_1 = '\''+result[key][0]+'\'';
+                q_2 = '\''+result[key][1]+'\'';
+                q_3 = '\''+result[key][2]+'\'';
+                q_4 = '\''+result[key][3]+'\'';
+                q_count = '\''+1+'\''; // Search count 수.
+                q_type = '\''+"Q"+'\''; // 의사소통 목적.
+              }else{
+                id += ',\''+new_q_id+'\'';
+                q_index = ',\''+index+'\'';
+                index++;
+                q_length = ',\''+length+'\'';
+                q_1 = ',\''+result[key][0]+'\'';
+                q_2 = ',\''+result[key][1]+'\'';
+                q_3 = ',\''+result[key][2]+'\'';
+                q_4 = ',\''+result[key][3]+'\'';
+                q_count = ',\''+1+'\''; // Search count 수.
+                q_type = ',\''+"Q"+'\''; // 의사소통 목적.
+              }
             }
-            console.log(result_arr);
-            // client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
+            console.log(id + q_index + q_length);
+            //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
+            // client.query('INSERT INTO Q_Table(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
             // });
           });
         });
