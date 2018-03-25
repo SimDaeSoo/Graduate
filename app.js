@@ -273,33 +273,33 @@ app.post('/message', function(req,res){
                 {
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else if(Similarity <47 && TempIntersection+Temp_Union <= 13)
                 {
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else if(Similarity <39 && TempIntersection+Temp_Union <= 16)
                 {
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else if(Similarity < 32 &&  TempIntersection+Temp_Union <= 19){
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else if(Similarity < 22){
                   answer = {
                     "message":{
-                      "text":"<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
                     }
                   }
                 }else{
