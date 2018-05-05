@@ -94,6 +94,7 @@ app.post('/message', function(req,res){
                   toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
                 }
               }
+              //이부분은 주석이다.
               //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res){
                 mecab.parse(temp_a, function(err, result) {
