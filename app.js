@@ -1,4 +1,3 @@
-// a simple node app for kakao api
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -12,13 +11,20 @@ var client = mysql.createConnection({
     database : "qna"
 });
 
-/*
-  Function : Word Embedding 2018.05.08 Sim Dae-Soo
-*/
-
 app.use(bodyParser.json());
 
-app.get('/keyboard',function(req,res){ // setting keyboard for first open
+app.listen(8080,function(){
+  console.log('--------------------------------------------');
+  console.log(' - 2018.03.01');
+  console.log(' - Present by PL Lab');
+  console.log(' - Sim Dae-Soo');
+  console.log(' - Graduate Kakao Chat Bot ( V.0.0.1 )');
+  console.log('--------------------------------------------');
+  console.log(' - Chat Bot server is on!');
+  console.log('--------------------------------------------')
+});
+
+app.get('/keyboard',function(req,res){
   let keyboard = {
     "type" : "text"
   };
@@ -338,21 +344,12 @@ app.post('/message', function(req,res){
   });
 });
 
+/*
+  Hompage 2018.05.08 Sim Dae-Soo
+*/
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
-
-app.listen(8080,function(){
-  console.log('--------------------------------------------');
-  console.log(' - 2018.03.01');
-  console.log(' - Present by PL Lab');
-  console.log(' - Sim Dae-Soo');
-  console.log(' - Graduate Kakao Chat Bot ( V.0.0.1)');
-  console.log('--------------------------------------------');
-  console.log(' - Chat Bot server is on!');
-  console.log('--------------------------------------------')
-});
-
 
 /*  API Test
 answer can use
