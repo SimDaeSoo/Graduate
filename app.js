@@ -214,10 +214,10 @@ app.post('/message', function(req,res){
                   temp_index++;
                   break;
                 }else{
-                  var temp_word = Table_res[temp_index];
+                  var temp_word = Table_res[temp_index].q_1;
                   var x = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
 
-                  temp_word = Table_res[j];
+                  temp_word = Table_res[j].q_1;
                   var y = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
 
                   Embedding_Array[x][y]++;
