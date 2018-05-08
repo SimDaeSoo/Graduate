@@ -54,7 +54,6 @@ function outputEmbedding(){
           /*
             Word Embedding 2018.05.08 Sim Dae-Soo
           */
-          console.log(" - Word Embedding is start!");
           var i = 0;
           var j = 0;
           var flag = 0;
@@ -93,7 +92,6 @@ function outputEmbedding(){
               i++;
             }
           }
-          console.log(" - Word Embedding is done!");
 
           for(i=0;i<Word_Array.length;i++)
           {
@@ -106,6 +104,7 @@ function outputEmbedding(){
           {
             text += "( " + Count_Array[i] + " ) ";
           }
+          console.log(text);
           fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
           // console.log(Word_Array);
           // console.log(Count_Array);
