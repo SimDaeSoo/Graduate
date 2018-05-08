@@ -36,17 +36,34 @@ app.get('/keyboard',function(req,res){
   res.send(keyboard);
 });
 
-function getIndex(Word_Arr,Count_Arr,Embedding_Arr,word){
-  var arr = new Array();
-  Embedding_Arr.push(arr);
+function getIndex(Word_Arr,Count_Arr,Embedding_Arr,Word){
+  var flag = 0;
+  var i = 0;
+  var j = 0;
 
-  var arr = new Array();
-  Embedding_Arr.push(arr);
-  Embedding_Arr[0].push(0);
-  Embedding_Arr[1].push(2);
-  Embedding_Arr[0].push(3);
+  for(i=0;i<Word_Arr.length;i++)
+  {
+    if(Word_Arr[i] == Word){
+      flag = 1;
+      break;
+    }
+  }
+  if(flag == 1){
+    return i;
+  }else{
+    Word_Arr.push(Word);
+    Count_Arr.push(0);
+    var Arr = new Array();
+    Embedding_Arr.push(Arr);
+    Embedding_Arr[Embedding_Arr.length-1].push(0);
 
-  console.log(Embedding_Arr);
+    for(j=0;j<Embedding_Arr.length;j++){
+      Embedding_Arr[j].push(0);
+      Embedding_Arr[Embedding_Arr.length-1].push(0);
+    }
+
+    return (EmbeddingArr.length-1);
+  }
 }
 
 app.post('/message', function(req,res){
@@ -58,7 +75,9 @@ app.post('/message', function(req,res){
   var learn_error = 0;
 
   var Embedding_Array = new Array();
-  getIndex(1,2,Embedding_Array,"hello");
+  var Word_Array = new Array();
+  var Count_Array = new Array();
+  var Window_Length = 2;
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
@@ -157,6 +176,7 @@ app.post('/message', function(req,res){
     */
     client.query('SELECT * FROM A_Table',function(err,Answer_tbl){
       client.query('SELECT * FROM Q_Table',function(err,Table_res){
+
         mecab.parse(content, function(err, result) {
           var q_length = 0; // 비동기니까 잘 처리할 것.
 
@@ -167,6 +187,51 @@ app.post('/message', function(req,res){
                 toStringRes += key + '['+result[key]+']\n';
               }
             }
+
+            /*
+              Word Embedding 2018.05.08 Sim Dae-Soo
+            */
+            console.log(" - Word Embedding is start!");
+            var i = 0;
+            var j = 0;
+            var flag = 0;
+            var arr_index = 0;
+            var temp_index = 0;
+
+            while(i < q_length)
+            {
+              word = Table_res[j].q_1;
+              arr_index = getIndex(Word_Array,Count_Array,Embedding_Array,word);
+              Count_Array[arr_index]++;
+              temp_index = j - Window_Length;
+
+              while(temp_index <= j + Window_Length)
+              {
+                if(temp_index == j || temp_index < 0 || Table_res[temp_index].q_index >= Table_res[j].q_length){
+                  temp_index++;
+                  break;
+                }else if(Table_res[temp_index].id != Table_res[j].id){
+                  temp_index++;
+                  break;
+                }else{
+                  var temp_word = Table_res[temp_index];
+                  var x = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
+
+                  temp_word = Table_res[j];
+                  var y = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
+
+                  Embedding_Array[x][y]++;
+                  temp_index++;
+                }
+              }
+
+              j++;
+              if(Table_res[i].id != Table_res[j].id){
+                i++;
+              }
+            }
+            console.log(" - Word Embedding is done!");
+            console.log(Word_Array);
 
             var answer;
 
