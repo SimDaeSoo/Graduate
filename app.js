@@ -317,7 +317,7 @@ app.post('/message', function(req,res){
                   }
                   answer = {
                     "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+"( "+Similarity+" )]" // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+"( "+Similarity+"% )]" // in case 'text'
                     }
                   }
                 }
