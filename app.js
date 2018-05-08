@@ -93,6 +93,8 @@ function outputEmbedding(){
             }
           }
 
+          text += "total word : " + Word_Array.length + '\n';
+
           for(i=0;i<Word_Array.length;i++)
           {
             text += "( " + Word_Array[i] + " ) ";
