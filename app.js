@@ -109,7 +109,7 @@ function outputEmbedding(){
           for(i=0;i<Embedding_Array.length;i++)
           {
             for(j=0;j<Embedding_Array[i].length;j++){
-              text += "( " + Count_Array[i][j] + " ) ";
+              text += "( " + Embedding_Array[i][j] + " ) ";
             }
             text += '\n';
           }
