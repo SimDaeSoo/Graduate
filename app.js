@@ -37,9 +37,14 @@ app.get('/keyboard',function(req,res){
 });
 
 function getIndex(Word_Arr,Count_Arr,Embedding_Arr,word){
-  var Arr = new Array();
+  var arr = new Array();
+  Embedding_Arr.push(arr);
+
+  var arr = new Array();
   Embedding_Arr.push(arr);
   Embedding_Arr[0].push(0);
+  Embedding_Arr[1].push(2);
+  Embedding_Arr[0].push(3);
 
   console.log(Embedding_Arr);
 }
