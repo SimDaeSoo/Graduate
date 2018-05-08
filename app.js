@@ -14,6 +14,10 @@ var client = mysql.createConnection({
 app.use(bodyParser.json());
 
 app.listen(8080,function(){
+  require('date-utils');
+  var dt = new Date();
+  var d = dt.toFormat('YYYY-MM-DD HH24:MI:SS');
+
   console.log('--------------------------------------------');
   console.log(' - 2018.03.01');
   console.log(' - Present by PL Lab');
@@ -21,6 +25,7 @@ app.listen(8080,function(){
   console.log(' - Graduate Kakao Chat Bot ( V.0.0.1 )');
   console.log('--------------------------------------------');
   console.log(' - Chat Bot server is on!');
+  console.log(' - Running Time : ' + d);
   console.log('--------------------------------------------')
 });
 
