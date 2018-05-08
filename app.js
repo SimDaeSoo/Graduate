@@ -439,10 +439,6 @@ app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/embedding', function(req, res) {
-  res.sendFile(__dirname + "/embedding.html");
-});
-
 /*  API Test
 answer can use
 {
