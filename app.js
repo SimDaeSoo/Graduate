@@ -100,11 +100,18 @@ function outputEmbedding(){
             text += "( " + Word_Array[i] + " ) ";
           }
 
-          text += '  \n\n  ';
+          text += '\n\n';
 
           for(i=0;i<Count_Array.length;i++)
           {
             text += "( " + Count_Array[i] + " ) ";
+          }
+          for(i=0;i<Embedding_Array.length;i++)
+          {
+            for(j=0;j<Embedding_Array[i].length;j++){
+              text += "( " + Count_Array[i][j] + " ) ";
+            }
+            text += '\n';
           }
           console.log(text);
           fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
