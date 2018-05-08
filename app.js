@@ -38,7 +38,7 @@ app.get('/keyboard',function(req,res){
 
 function getIndex(Word_Arr,Count_Arr,Embedding_Arr,word){
   var Arr = new Array();
-  Embedding.push(arr);
+  Embedding_Arr.push(arr);
   Embedding_Arr[0].push(0);
 
   console.log(Embedding_Arr);
