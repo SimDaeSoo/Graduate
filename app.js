@@ -232,6 +232,8 @@ app.post('/message', function(req,res){
             }
             console.log(" - Word Embedding is done!");
             console.log(Word_Array);
+            console.log(Count_Array);
+            console.log(Embedding_Array);
 
             var answer;
 
