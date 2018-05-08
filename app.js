@@ -12,17 +12,15 @@ var client = mysql.createConnection({
     database : "qna"
 });
 
-app.use(bodyParser.json());
+/*
+  Function : Word Embedding 2018.05.08 Sim Dae-Soo
+*/
 
+app.use(bodyParser.json());
 
 app.get('/keyboard',function(req,res){ // setting keyboard for first open
   let keyboard = {
     "type" : "text"
-    /*
-    or button, like this
-    "type" : "buttons",
-    "buttons" : ["btn 1", "btn 2", "btn 3"]
-    */
   };
   res.send(keyboard);
 });
@@ -34,10 +32,6 @@ app.post('/message', function(req,res){
   var toStringRes = "";
   var system_mode;
   var learn_error = 0;
-  // console.log('user_key : '+user_key);
-  // console.log('type : '+type);
-  // console.log('input : '+content);
-  // console.log(new Date() + " , user_key : "+user_key);
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
@@ -48,7 +42,10 @@ app.post('/message', function(req,res){
       system_mode = query_res[0].sys_status;
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------
+    /*
+      Training Mode 2018.05.08 Sim Dae-Soo
+      ex) Q @@ A
+    */
     if(system_mode == 1){
       var temp_a = content.split("@@")[1];
       var temp_q = content.split("@@")[0];
@@ -69,6 +66,9 @@ app.post('/message', function(req,res){
 
               var toQuery = "";
 
+              /*
+                Make Query 2018.05.08 Sim Dae-Soo
+              */
               for( var key in result ) {
                 if(key == 0){
                   toQuery += '(\''+new_q_id+'\'';
@@ -94,12 +94,13 @@ app.post('/message', function(req,res){
                   toQuery += ',\''+"Q"+'\')'; // 의사소통 목적.
                 }
               }
-              //이부분은 주석이다.
-              console.log(toQuery);
-              //id q_index q_length q_1 q_2 q_3 q_4 q_count q_type
+
+              /*
+                Save Training Set 2018.05.08 Sim Dae-Soo
+              */
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res_1){
                 mecab.parse(temp_a, function(err, result) {
-                  var new_a_id = 0; // 비동기니까 잘 처리할 것.
+                  var new_a_id = 0;
 
                   client.query('SELECT * FROM Count_Table',function(err,res){
                     new_a_id = res[0].tot_q;
@@ -123,12 +124,15 @@ app.post('/message', function(req,res){
         learn_error = 1;
       }
     }
-    //--------------------------------------------------------------------------------------------------------------------------
+
+    /*
+      Select Sentence 2018.05.08 Sim Dae-Soo
+    */
     client.query('SELECT * FROM A_Table',function(err,Answer_tbl){
       client.query('SELECT * FROM Q_Table',function(err,Table_res){
         mecab.parse(content, function(err, result) {
           var q_length = 0; // 비동기니까 잘 처리할 것.
-          //--------------------------------------------------------------------------------
+
           client.query('SELECT * FROM Count_Table',function(err,count_res){
             q_length = count_res[0].tot_q;
             if(system_mode == 2){
@@ -136,7 +140,7 @@ app.post('/message', function(req,res){
                 toStringRes += key + '['+result[key]+']\n';
               }
             }
-            //--------------------------------------------------------------------------------
+
             var answer;
 
             if(content.split("#학습모드")[1] != undefined){
@@ -207,6 +211,9 @@ app.post('/message', function(req,res){
                   }
                 }
               }else if(system_mode == 0){
+                /*
+                  Similarity Calculate 2018.05.08 Sim Dae-Soo
+                */
                 var Similarity = 0;
                 var Similarity_Q_Id = 0;
 
@@ -329,31 +336,6 @@ app.post('/message', function(req,res){
       });
     });
   });
-  /*
-  answer can use
-  {
-    "message": {
-      "text": "귀하의 차량이 성공적으로 등록되었습니다. 축하합니다!",
-      "photo": {
-        "url": "https://photo.src",
-        "width": 640,
-        "height": 480
-      },
-      "message_button": {
-        "label": "주유 쿠폰받기",
-        "url": "https://coupon/url"
-      }
-    },
-    "keyboard": {
-      "type": "buttons",
-      "buttons": [
-        "처음으로",
-        "다시 등록하기",
-        "취소하기"
-      ]
-    }
-  }
-  */
 });
 
 app.get('/home', function(req, res) {
@@ -361,5 +343,39 @@ app.get('/home', function(req, res) {
 });
 
 app.listen(8080,function(){
-  console.log('8080 포트 서버 연결 완료!.');
+  console.log('--------------------------------------------');
+  console.log(' - 2018.03.01');
+  console.log(' - Present by PL Lab');
+  console.log(' - Sim Dae-Soo');
+  console.log(' - Graduate Kakao Chat Bot ( V.0.0.1)');
+  console.log('--------------------------------------------');
+  console.log(' - Chat Bot server is on!');
+  console.log('--------------------------------------------')
 });
+
+
+/*  API Test
+answer can use
+{
+  "message": {
+    "text": "귀하의 차량이 성공적으로 등록되었습니다. 축하합니다!",
+    "photo": {
+      "url": "https://photo.src",
+      "width": 640,
+      "height": 480
+    },
+    "message_button": {
+      "label": "주유 쿠폰받기",
+      "url": "https://coupon/url"
+    }
+  },
+  "keyboard": {
+    "type": "buttons",
+    "buttons": [
+      "처음으로",
+      "다시 등록하기",
+      "취소하기"
+    ]
+  }
+}
+*/
