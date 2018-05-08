@@ -39,7 +39,7 @@ app.get('/keyboard',function(req,res){
 function getIndex(Word_Arr,Count_Arr,Embedding_Arr,word){
   var Arr = new Array();
   Embedding.push(arr);
-  Embedding[0].push(0);
+  Embedding_Arr[0].push(0);
 
   console.log(Embedding_Arr);
 }
@@ -54,7 +54,7 @@ app.post('/message', function(req,res){
 
   var Embedding_Array = new Array();
   getIndex(1,2,Embedding_Array,"hello");
-  
+
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
