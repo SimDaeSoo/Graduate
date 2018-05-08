@@ -36,6 +36,14 @@ app.get('/keyboard',function(req,res){
   res.send(keyboard);
 });
 
+function getIndex(Word_Arr,Count_Arr,Embedding_Arr,word){
+  var Arr = new Array();
+  Embedding.push(arr);
+  Embedding[0].push(0);
+
+  console.log(Embedding_Arr);
+}
+
 app.post('/message', function(req,res){
   let user_key = decodeURIComponent(req.body.user_key); // user's key
   let type = decodeURIComponent(req.body.type); // message type
@@ -44,6 +52,9 @@ app.post('/message', function(req,res){
   var system_mode;
   var learn_error = 0;
 
+  var Embedding_Array = new Array();
+  getIndex(1,2,Embedding_Array,"hello");
+  
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
