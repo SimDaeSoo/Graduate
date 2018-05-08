@@ -106,6 +106,9 @@ function outputEmbedding(){
           {
             text += "( " + Count_Array[i] + " ) ";
           }
+
+          text += '\n\n';
+
           for(i=0;i<Embedding_Array.length;i++)
           {
             for(j=0;j<Embedding_Array[i].length;j++){
