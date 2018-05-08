@@ -62,7 +62,7 @@ function getIndex(Word_Arr,Count_Arr,Embedding_Arr,Word){
       Embedding_Arr[Embedding_Arr.length-1].push(0);
     }
 
-    return (EmbeddingArr.length-1);
+    return (Embedding_Arr.length-1);
   }
 }
 
