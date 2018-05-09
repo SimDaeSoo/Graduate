@@ -13,7 +13,8 @@
     "espress": "0.0.0",
     "express": "^4.16.3",
     "mecab-ffi": "^0.2.0",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "request": "^2.85.0"
   },
   "repository": {
     "type": "git",

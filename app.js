@@ -537,7 +537,6 @@ app.get('/embedding', function(req, res) {
 
 app.get('/wordembedding',function(req,res){
   var text = outputEmbedding(function(text){
-    console.log(text);
     var data = {string:text};
     res.json(data);
   });
