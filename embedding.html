@@ -69,7 +69,7 @@ function tableMake(Input){
   var i = 0;
   var word_count = 0;
   Input = Input.split(':')[2];
-  word_count = Input.split('\n')[0];
+  word_count = Input.split('\\n')[0];
   console.log(word_count);
 
   while(Input[i] == 'E' && Input[i+1] == 'O' && Input[i+2] == 'T'){
