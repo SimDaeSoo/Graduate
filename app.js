@@ -535,10 +535,10 @@ app.get('/embedding', function(req, res) {
   res.sendFile(__dirname + "/embedding.html");
 });
 
-app.post('/wordembedding',function(req,res){
+app.get('/wordembedding',function(req,res){
   var text = outputEmbedding(function(text){
     var data = {string:text};
-    res.send(data);
+    res.json(data);
   });
 });
 

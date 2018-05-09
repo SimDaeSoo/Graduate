@@ -6,10 +6,36 @@
   </head>
 
   <body>
-    <form action="/wordembedding" method="POST">
-      <input type="text" name="title" /><br />
-      <textarea name="content"></textarea><br />
-      <button type="submit">Submit</button>
+    <form>
+      <input type="button" id="refresh_btn" onclick="refreshEmbedding();" value="Refresh" />
     </form>
   </body>
 </html>
+
+<script type='javascript;'>
+var http = require('http');
+function refreshEmbedding() {
+  var options = {
+    hostname: '13.125.224.92',
+    path: '/wordembedding',
+    port: '8080'
+  };
+
+  function handleResponse(response) {
+    var serverData = '';
+    response.on('data', function (chunk) {
+      serverData += chunk;
+    });
+    response.on('end', function () {
+      console.log("received server data:");
+      console.log(serverData);
+    });
+  }
+
+  http.request(options, function(response){
+    handleResponse(response);
+  }).end();
+
+	alert("갱신중 입니다.");
+}
+</script>
