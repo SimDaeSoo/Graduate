@@ -116,6 +116,7 @@ function outputEmbedding(callback){
           }
           text += '\n';
         }
+        text += 'EOT';
         fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
         return callback(text);
       });
