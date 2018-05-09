@@ -3,7 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var mecab = require('mecab-ffi');
-var http = require('http');
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",

@@ -11,31 +11,23 @@
     </form>
   </body>
 </html>
+<script src="/require.js"></script>
 
 <script type='text/javascript'>
-var http = require('http');
+
 function refreshEmbedding() {
-  var options = {
-    hostname: '13.125.224.92',
-    path: '/wordembedding',
-    port: '8080'
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() { // 요청에 대한 콜백
+    if (xhr.readyState === xhr.DONE) { // 요청이 완료되면
+      if (xhr.status === 200 || xhr.status === 201) {
+        console.log(xhr.responseText);
+      } else {
+        console.error(xhr.responseText);
+      }
+    }
   };
-
-  function handleResponse(response) {
-    var serverData = '';
-    response.on('data', function (chunk) {
-      serverData += chunk;
-    });
-    response.on('end', function () {
-      console.log("received server data:");
-      console.log(serverData);
-    });
-  }
-
-  http.request(options, function(response){
-    handleResponse(response);
-  }).end();
-
-	alert("갱신중 입니다.");
+  xhr.open('GET', 'https://13.125.224.92:8080/wordembedding'); // 메소드와 주소 설정
+  xhr.send(); // 요청 전송
 }
+
 </script>
