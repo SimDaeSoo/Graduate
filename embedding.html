@@ -9,17 +9,53 @@
     <form>
       <input type="button" id="refresh_btn" onclick="refreshEmbedding();" value="Refresh" />
     </form>
+
+    </br>
+
+    <div>
+      <span id="wordTot">단어의 개수 : n개</span>
+    </div>
+
+    </br>
+
+    <div>
+      <table id="word">
+      </table>
+    </div>
+
+    </br>
+
+    <div>
+      <table id="wordEmbedding">
+      </table>
+    </div>
   </body>
 </html>
 
+<style>
+  table {
+    width: 100%;
+    border: 1px solid #444444;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <script type='text/javascript'>
+var Embedding_Array = new Array();
+var Word_Array = new Array();
+var Count_Array = new Array();
 
 function refreshEmbedding() {
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() { // 요청에 대한 콜백
     if (xhr.readyState === xhr.DONE) { // 요청이 완료되면
       if (xhr.status === 200 || xhr.status === 201) {
-        console.log(xhr.responseText);
+        // console.log(xhr.responseText);
+        tableMake(xhr.responseText);
       } else {
         console.error(xhr.responseText);
       }
@@ -27,6 +63,12 @@ function refreshEmbedding() {
   };
   xhr.open('GET', 'http://13.125.224.92:8080/wordembedding'); // 메소드와 주소 설정
   xhr.send(); // 요청 전송
+}
+
+function tableMake(Input){
+  console.log(Input[0]);
+  console.log(Input[1]);
+  console.log(Input[2]);
 }
 
 </script>
