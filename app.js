@@ -93,28 +93,28 @@ function outputEmbedding(callback){
           }
         }
 
-        text += "total word : " + Word_Array.length + '\n';
+        text += "Part_1" + Word_Array.length + "Part_2";
 
         for(i=0;i<Word_Array.length;i++)
         {
-          text += "( " + Word_Array[i] + " ) ";
+          text += "(" + Word_Array[i] + ")";
         }
 
-        text += '\n\n';
+        text += 'Part_3';
 
         for(i=0;i<Count_Array.length;i++)
         {
-          text += "( " + Count_Array[i] + " ) ";
+          text += "(" + Count_Array[i] + ")";
         }
 
-        text += '\n\n';
+        text += 'Part_4';
 
         for(i=0;i<Embedding_Array.length;i++)
         {
           for(j=0;j<Embedding_Array[i].length;j++){
-            text += "( " + Embedding_Array[i][j] + " ) ";
+            text += "(" + Embedding_Array[i][j] + ")";
           }
-          text += '\n';
+          text += 'Line';
         }
         text += 'EOT';
         fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
