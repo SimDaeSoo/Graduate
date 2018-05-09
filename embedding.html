@@ -76,29 +76,43 @@ function tableMake(Input){
   var Part_4 = Input.split('Part_4')[1].split('EOT')[0];
   var Part_5 = null;
 
+  var html = '';
+
   word_count = Number(Part_1);
   console.log(word_count);
+  $('#wordTot').html('단어의 개수 : ' + word_count);
 
+  html += '<tr>';
   Part_2 = Part_2.split(')');
   for(i=0;i<word_count;i++){
+    html += '<td>';
+    html += Part_2[i].split('(')[1];
+    html += '<td>';
     Word_Array.push(Part_2[i].split('(')[1]);
   }
+  html += '</tr>';
   console.log(Word_Array);
 
+  html += '<tr>';
   Part_3 = Part_3.split(')');
-  for(i=0;i<word_count+1;i++){
-    Count_Array.push(Part_3[i].split('(')[1]);
+  for(i=0;i<word_count;i++){
+    html += '<td>';
+    html += Part_3[i].split('(')[1];
+    html += '<td>';
+    Count_Array.push(Number(Part_3[i].split('(')[1]));
   }
   console.log(Count_Array);
+  html += '</tr>';
+  $('#word').html(html);
 
   Part_4 = Part_4.split('Line');
-  for(i=0;i<word_count+1;i++){
+  for(i=0;i<word_count;i++){
     var arr = new Array();
     Part_4[i] = Part_4[i].split(')');
     Part_5 = Part_4[i];
     Embedding_Array.push(arr);
-    for(j=0;j<word_count+1;j++){
-      Embedding_Array[i].push(Part_5[j].split('(')[1]);
+    for(j=0;j<word_count;j++){
+      Embedding_Array[i].push(Number(Part_5[j].split('(')[1]));
     }
   }
   console.log(Embedding_Array);
