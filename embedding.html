@@ -67,20 +67,40 @@ function refreshEmbedding() {
 
 function tableMake(Input){
   var i = 0;
+  var j = 0;
   var word_count = 0;
   var Status = 0;
   var Part_1 = Input.split('Part_1')[1].split('Part_2')[0];
   var Part_2 = Input.split('Part_2')[1].split('Part_3')[0];
   var Part_3 = Input.split('Part_3')[1].split('Part_4')[0];
   var Part_4 = Input.split('Part_4')[1].split('EOT')[0];
+  var Part_5 = null;
 
   word_count = Number(Part_1);
   console.log(word_count);
 
   Part_2 = Part_2.split(')');
-  for(i=0;i<word_count+1;i++){
-    console.log(Part_2[i].split('(')[1]);
+  for(i=0;i<word_count;i++){
+    Word_Array.push(Part_2[i].split('(')[1]);
   }
+
+  Part_3 = Part_3.split(')');
+  for(i=0;i<word_count;i++){
+    Count_Array.push(Part_3[i].split('(')[1]);
+  }
+  console.log(Count_Array);
+
+  Part_4 = Part_4.split('Line');
+  for(i=0;i<word_count;i++){
+    var arr = new Array();
+    Part_4[i] = Part_4[i].split(')');
+    Part_5 = Part_4[i];
+    Embedding_Array.push(arr);
+    for(j=0;j<word_count;j++){
+      Embedding_Array[i].push(Part_5[j].split('(')[1]);
+    }
+  }
+  console.log(Embedding_Array);
 }
 
 </script>
