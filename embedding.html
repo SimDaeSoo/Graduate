@@ -78,8 +78,8 @@ function tableMake(Input){
   console.log(word_count);
 
   Part_2 = Part_2.split(')');
-  for(i=0;i<word_count;i++){
-    console.log(Part_2[i].split(')')[0]);
+  for(i=0;i<word_count+1;i++){
+    console.log(Part_2[i].split('(')[1]);
   }
 }
 
