@@ -48,83 +48,79 @@ function outputEmbedding(callback){
 
   client.query('SELECT * FROM A_Table',function(err,Answer_tbl){
     client.query('SELECT * FROM Q_Table',function(err,Table_res){
-        client.query('SELECT * FROM Count_Table',function(err,count_res){
-          q_length = count_res[0].tot_q;
+      client.query('SELECT * FROM Count_Table',function(err,count_res){
+        q_length = count_res[0].tot_q;
 
-          /*
-            Word Embedding 2018.05.08 Sim Dae-Soo
-          */
-          var i = 0;
-          var j = 0;
-          var flag = 0;
-          var arr_index = 0;
-          var temp_index = 0;
+        /*
+          Word Embedding 2018.05.08 Sim Dae-Soo
+        */
+        var i = 0;
+        var j = 0;
+        var flag = 0;
+        var arr_index = 0;
+        var temp_index = 0;
 
-          while(i < q_length)
+        while(i < q_length)
+        {
+          word = Table_res[j].q_1;
+          arr_index = getIndex(Word_Array,Count_Array,Embedding_Array,word);
+          Count_Array[arr_index]++;
+          temp_index = j - Window_Length;
+
+          while(temp_index <= j + Window_Length)
           {
-            word = Table_res[j].q_1;
-            arr_index = getIndex(Word_Array,Count_Array,Embedding_Array,word);
-            Count_Array[arr_index]++;
-            temp_index = j - Window_Length;
+            if(temp_index == j || temp_index < 0 || Table_res[temp_index].q_index >= Table_res[j].q_length){
+              temp_index++;
+              break;
+            }else if(Table_res[temp_index].id != Table_res[j].id){
+              temp_index++;
+              break;
+            }else{
+              var temp_word = Table_res[temp_index].q_1;
+              var x = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
 
-            while(temp_index <= j + Window_Length)
-            {
-              if(temp_index == j || temp_index < 0 || Table_res[temp_index].q_index >= Table_res[j].q_length){
-                temp_index++;
-                break;
-              }else if(Table_res[temp_index].id != Table_res[j].id){
-                temp_index++;
-                break;
-              }else{
-                var temp_word = Table_res[temp_index].q_1;
-                var x = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
+              temp_word = Table_res[j].q_1;
+              var y = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
 
-                temp_word = Table_res[j].q_1;
-                var y = getIndex(Word_Array,Count_Array,Embedding_Array,temp_word);
-
-                Embedding_Array[x][y]++;
-                temp_index++;
-              }
-            }
-
-            j++;
-            if(Table_res[i].id != Table_res[j].id){
-              i++;
+              Embedding_Array[x][y]++;
+              temp_index++;
             }
           }
 
-          text += "total word : " + Word_Array.length + '\n';
-
-          for(i=0;i<Word_Array.length;i++)
-          {
-            text += "( " + Word_Array[i] + " ) ";
+          j++;
+          if(Table_res[i].id != Table_res[j].id){
+            i++;
           }
+        }
 
-          text += '\n\n';
+        text += "total word : " + Word_Array.length + '\n';
 
-          for(i=0;i<Count_Array.length;i++)
-          {
-            text += "( " + Count_Array[i] + " ) ";
+        for(i=0;i<Word_Array.length;i++)
+        {
+          text += "( " + Word_Array[i] + " ) ";
+        }
+
+        text += '\n\n';
+
+        for(i=0;i<Count_Array.length;i++)
+        {
+          text += "( " + Count_Array[i] + " ) ";
+        }
+
+        text += '\n\n';
+
+        for(i=0;i<Embedding_Array.length;i++)
+        {
+          for(j=0;j<Embedding_Array[i].length;j++){
+            text += "( " + Embedding_Array[i][j] + " ) ";
           }
-
-          text += '\n\n';
-
-          for(i=0;i<Embedding_Array.length;i++)
-          {
-            for(j=0;j<Embedding_Array[i].length;j++){
-              text += "( " + Embedding_Array[i][j] + " ) ";
-            }
-            text += '\n';
-          }
-          console.log(text);
-          fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
-          return callback(text);
-          // console.log(Word_Array);
-          // console.log(Count_Array);
-          // console.log(Word_Array.length);
-        });
+          text += '\n';
+        }
+        fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
+        return callback(text);
       });
     });
+  });
 }
 
 function getIndex(Word_Arr,Count_Arr,Embedding_Arr,Word){
@@ -323,9 +319,6 @@ app.post('/message', function(req,res){
             }
             console.log(" - Word Embedding is done!");
             outputEmbedding();
-            // console.log(Word_Array);
-            // console.log(Count_Array);
-            // console.log(Word_Array.length);
 
             var answer;
 
