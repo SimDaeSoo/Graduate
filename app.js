@@ -36,7 +36,7 @@ app.get('/keyboard',function(req,res){
   res.send(keyboard);
 });
 
-function outputEmbedding(){
+function outputEmbedding(callback){
   var fs = require('fs');
   var text = '';
   var q_length;
@@ -118,7 +118,7 @@ function outputEmbedding(){
           }
           console.log(text);
           fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
-          return text;
+          return callback(text);
           // console.log(Word_Array);
           // console.log(Count_Array);
           // console.log(Word_Array.length);
@@ -536,10 +536,11 @@ app.get('/embedding', function(req, res) {
 });
 
 app.get('/wordembedding',function(req,res){
-  var text = outputEmbedding();
-  console.log(text);
-  var data = {string:"text"};
-  res.json(data);
+  var text = outputEmbedding(function(text){
+    console.log(text);
+    var data = {string:text};
+    res.json(data);
+  });
 });
 
 /*  API Test
