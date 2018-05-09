@@ -118,6 +118,7 @@ function outputEmbedding(){
           }
           console.log(text);
           fs.writeFileSync("word_embedding.txt", '\ufeff' + text, {encoding: 'utf8'});
+          return text;
           // console.log(Word_Array);
           // console.log(Count_Array);
           // console.log(Word_Array.length);
@@ -528,6 +529,13 @@ app.post('/message', function(req,res){
 */
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
+});
+
+app.get('/getEmbedding',function(req,res){
+  var text = outputEmbedding();
+  console.log(text);
+  var data = {string:text};
+  res.json(data);
 });
 
 /*  API Test
