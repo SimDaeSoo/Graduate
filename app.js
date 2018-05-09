@@ -531,7 +531,11 @@ app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/getEmbedding',function(req,res){
+app.get('/embedding', function(req, res) {
+  res.sendFile(__dirname + "/embedding.html");
+});
+
+app.get('/wordembedding',function(req,res){
   var text = outputEmbedding();
   console.log(text);
   var data = {string:text};
