@@ -87,7 +87,7 @@ function tableMake(Input){
   for(i=0;i<word_count;i++){
     html += '<td>';
     html += Part_2[i].split('(')[1];
-    html += '<td>';
+    html += '</td>';
     Word_Array.push(Part_2[i].split('(')[1]);
   }
   html += '</tr>';
@@ -98,24 +98,32 @@ function tableMake(Input){
   for(i=0;i<word_count;i++){
     html += '<td>';
     html += Part_3[i].split('(')[1];
-    html += '<td>';
+    html += '</td>';
     Count_Array.push(Number(Part_3[i].split('(')[1]));
   }
   console.log(Count_Array);
   html += '</tr>';
   $('#word').html(html);
 
+  html = '';
   Part_4 = Part_4.split('Line');
   for(i=0;i<word_count;i++){
     var arr = new Array();
     Part_4[i] = Part_4[i].split(')');
     Part_5 = Part_4[i];
+
+    html += '<tr>';
     Embedding_Array.push(arr);
     for(j=0;j<word_count;j++){
+      html += '<td>';
+      html += Part_5[j].split('(')[1];
+      html += '</td>';
       Embedding_Array[i].push(Number(Part_5[j].split('(')[1]));
     }
+    html += '</tr>';
   }
   console.log(Embedding_Array);
+  $('#wordEmbedding').html(html);
 }
 
 </script>
