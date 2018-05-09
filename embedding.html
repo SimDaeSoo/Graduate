@@ -83,20 +83,21 @@ function tableMake(Input){
   for(i=0;i<word_count;i++){
     Word_Array.push(Part_2[i].split('(')[1]);
   }
+  console.log(Word_Array);
 
   Part_3 = Part_3.split(')');
-  for(i=0;i<word_count;i++){
+  for(i=0;i<word_count+1;i++){
     Count_Array.push(Part_3[i].split('(')[1]);
   }
   console.log(Count_Array);
 
   Part_4 = Part_4.split('Line');
-  for(i=0;i<word_count;i++){
+  for(i=0;i<word_count+1;i++){
     var arr = new Array();
     Part_4[i] = Part_4[i].split(')');
     Part_5 = Part_4[i];
     Embedding_Array.push(arr);
-    for(j=0;j<word_count;j++){
+    for(j=0;j<word_count+1;j++){
       Embedding_Array[i].push(Part_5[j].split('(')[1]);
     }
   }
