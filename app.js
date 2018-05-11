@@ -238,6 +238,7 @@ app.post('/message', function(req,res){
               /*
                 Save Training Set 2018.05.08 Sim Dae-Soo
               */
+              console.log(toQuery);
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res_1){
                 mecab.parse(temp_a, function(err, result) {
                   var new_a_id = 0;
@@ -465,7 +466,7 @@ app.post('/message', function(req,res){
                   }
                   answer = {
                     "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+"( "+Similarity+"% )]" // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]" // in case 'text'
                     }
                   }
                 }
