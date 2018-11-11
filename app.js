@@ -249,8 +249,8 @@ app.post('/message', function(req,res){
                     console.log('Count_Table select', res);
                     new_a_id = res[0].tot_q;
                     var toQuery = "";
-                    toQuery+='(\''+new_a_id+'\'';
-                    toQuery+=',\''+temp_a+'\')';
+                    toQuery+='(\"'+new_a_id+'\"';
+                    toQuery+=',\"'+temp_a+'\")';
                     console.log(toQuery);
                     client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res_2){
                       console.log('A_table', query_res_2);
