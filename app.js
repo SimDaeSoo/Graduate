@@ -176,9 +176,10 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  horseman.open('https://www.google.co.kr/search?q=%EB%82%A0%EC%94%A8&oq=%EB%82%A0%EC%94%A8&aqs=chrome..69i57j0l5.1931j0j7&sourceid=chrome&ie=UTF-8')
-  .crop('.vk_c.card-section', 'images/TodayWeather.jpg').then(function(string){
-    console.log('saved images');
+  horseman.open('http://www.google.co.kr')
+  .cropBase64({width:'600',height:'400'}, 'JPEG')
+  .then(function(string){
+    console.log(string);
   }).close();
 
   sleep(2000);
