@@ -491,8 +491,8 @@ app.post('/message', function(req,res){
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
                       "photo": {
                         "url": "http://13.125.224.92:8080/images/img.jpeg",
-                        "width": 485,
-                        "height": 115
+                        "width": 632,
+                        "height": 499
                       }
                     }
                   }
