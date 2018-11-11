@@ -550,7 +550,30 @@ function systemParser(string) {
     return search('http://www.google.co.kr/search?tbm=isch&q=',param);
   } else if(command == 'search') {
     return search('http://www.google.co.kr/search?q=',param);
+  } else if(command == 'melon') {
+    return chartSearch('http://www.melon.com/',param);
   }
+}
+
+function chartSearch(baseUrl, options) {
+  var query = '';
+  var selector = options.selector;
+
+  var horseman = new Horseman();
+  var uri = baseUrl;
+  var encoded = encodeURI(uri);
+  var date = new Date().toTimeString().replace(/[\s+:]/g, '');
+  var url = encoded;
+
+  console.log(url);
+
+  horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
+  .open(url)
+  sleep(1500);
+  horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
+  sleep(1500);
+
+  return date+'.JPEG';
 }
 
 function search(baseUrl, options) {
