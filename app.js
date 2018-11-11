@@ -183,7 +183,7 @@ app.post('/message', function(req,res){
   console.log(encoded);
   var url = encoded;
   horseman.open(url)
-  .crop({left: '135', top: '200', right: '620', bottom: '315'}, __dirname+'/images/img.JPEG');
+  .crop('#wob_wc', __dirname+'/images/img.JPEG');
 
   sleep(1000);
 
