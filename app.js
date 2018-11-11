@@ -174,6 +174,12 @@ app.post('/message', function(req,res){
   var Count_Array = new Array();
   var Window_Length = 2;
 
+  var horseman = new Horseman();
+  horseman.open('https://www.google.co.kr/search?q=%EB%82%A0%EC%94%A8&oq=%EB%82%A0%EC%94%A8&aqs=chrome..69i57j0l5.1931j0j7&sourceid=chrome&ie=UTF-8')
+  .crop('.vk_c.card-section', 'images/TodayWeather.jpg');
+
+  sleep(200);
+
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
