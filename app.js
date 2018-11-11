@@ -178,7 +178,7 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  var txt = 'https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%ED%95%9C%EA%B5%AD+%EC%84%9C%EC%9A%B8+%EB%82%A0%EC%94%A8'
+  var txt = 'https://www.google.co.kr/search?q=한국+서울+오늘+날씨&sourceid=chrome&ie=UTF-8'
   horseman.open(txt)
   .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
 
