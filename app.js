@@ -504,10 +504,20 @@ app.post('/message', function(req,res){
 /*
   Hompage 2018.05.08 Sim Dae-Soo
 */
-app.get('/images', function(req, res) {
+app.get('/images/*', function(req, res) {
   console.log(req.body);
-  res.sendFile(__dirname + "/images/img.jpeg");
+
+  var filename = 'img.JPEG';
+  fs.readFile(__dirname + "/images/" + filename,
+    function (err, data)
+    {
+      res.writeHead(200, { "Context-Type": "image/jpg" });
+      res.write(data);
+      res.end();
+    }
+  );
 });
+
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
