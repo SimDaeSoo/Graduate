@@ -8,6 +8,9 @@ var Horseman = require('node-horseman');
 var path = require('path');
 var fs = require('fs');
 
+var height;
+var width;
+
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
     user : "root",
@@ -437,8 +440,8 @@ app.post('/message', function(req,res){
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +Similarity+ "% ]", // in case 'text'
                       "photo": {
                         "url": "http://13.125.224.92:8080/images/"+filename,
-                        "width": 632,
-                        "height": 499
+                        "width": width,
+                        "height": height
                       }
                     }
                   }
@@ -556,6 +559,8 @@ function systemParser(string) {
 }
 
 function chartSearch(baseUrl, options) {
+  width = 608;
+  height = 527;
   var query = '';
   var selector = options.selector;
 
@@ -579,6 +584,8 @@ function chartSearch(baseUrl, options) {
 }
 
 function search(baseUrl, options) {
+  width = 632;
+  height = 499;
   var query = '';
   var selector = options.selector;
 
