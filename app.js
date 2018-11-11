@@ -242,7 +242,6 @@ app.post('/message', function(req,res){
               /*
                 Save Training Set 2018.05.08 Sim Dae-Soo
               */
-              console.log(toQuery);
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res_1){
                 console.log('INSERT Q_Table', query_res_1);
                 mecab.parse(temp_a, function(err, result) {
@@ -254,7 +253,6 @@ app.post('/message', function(req,res){
                     var toQuery = "";
                     toQuery+='(\"'+new_a_id+'\"';
                     toQuery+=',\"'+temp_a+'\")';
-                    console.log(toQuery);
                     client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res_2){
                       console.log('A_table', query_res_2);
                       new_a_id++;
@@ -527,7 +525,6 @@ app.get('/wordembedding',function(req,res){
 
 app.get('/images/:filename', function(req, res) {
   var filename = req.params.filename;
-  console.log(filename);
 
   fs.readFile(__dirname + "/images/" + filename,
     function (err, data)
@@ -565,7 +562,6 @@ function search(options) {
   var uri = 'https://www.google.co.kr/search?q='+query;
   var encoded = encodeURI(uri);
   var date = new Date().toTimeString().replace(/[\s+:]/g, '');
-  console.log(encoded);
   var url = encoded;
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url)
