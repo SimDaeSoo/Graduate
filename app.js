@@ -176,8 +176,9 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  horseman.open('https://www.google.co.kr/search?q=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8')
-  .crop('.vk_c.card-section', '/images/hello.jpeg')
+  var picture = "'data:image/(png|jpg);base64,'";
+  horseman.open('https://www.google.co.kr/search?q=%EC%98%A4%EB%8A%98+%EC%B2%9C%EC%95%88+%EB%82%A0%EC%94%A8')
+  .crop('.vk_c.card-section', '/images/')
   .close();
 
   sleep(1000);
@@ -482,7 +483,12 @@ app.post('/message', function(req,res){
                   }
                   answer = {
                     "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]" // in case 'text'
+                      "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
+                      "photo": {
+                        "url": "https://photo.src",
+                        "width": 632,
+                        "height": 499
+                      }
                     }
                   }
                 }
