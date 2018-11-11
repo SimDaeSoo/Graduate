@@ -509,19 +509,6 @@ app.post('/message', function(req,res){
 /*
   Hompage 2018.05.08 Sim Dae-Soo
 */
-app.get('/images/*', function(req, res) {
-  console.log(req.body);
-
-  var filename = 'img.JPEG';
-  fs.readFile(__dirname + "/images/" + filename,
-    function (err, data)
-    {
-      res.writeHead(200, { "Context-Type": "image/jpg" });
-      res.write(data);
-      res.end();
-    }
-  );
-});
 
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
@@ -536,6 +523,20 @@ app.get('/wordembedding',function(req,res){
     var data = {string:text};
     res.json(data);
   });
+});
+
+app.get('/images/:filename', function(req, res) {
+  var filename = req.params.filename;
+  console.log(filename);
+
+  fs.readFile(__dirname + "/images/" + filename,
+    function (err, data)
+    {
+      res.writeHead(200, { "Context-Type": "image/jpg" });
+      res.write(data);
+      res.end();
+    }
+  );
 });
 
 function systemParser(string) {
@@ -563,7 +564,7 @@ function search(options) {
   var horseman = new Horseman();
   var uri = 'https://www.google.co.kr/search?q='+query;
   var encoded = encodeURI(uri);
-  var date = new Date().toTimeString().replace(/:/g, '');
+  var date = new Date().toTimeString().replace(/\s+:/g, '');
   console.log(encoded);
   var url = encoded;
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
