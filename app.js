@@ -295,7 +295,7 @@ app.post('/message', function(req,res){
               }
             }
 
-            console.log('Morphology Analysis:\n');
+            console.log('Morphology Analysis:\n', toStringRes);
 
             var answer;
 
@@ -606,9 +606,9 @@ function search(baseUrl, options) {
 
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url)
-  sleep(1500);
+  sleep(1000);
   horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
-  sleep(1500);
+  sleep(2000);
 
   return date+'.JPEG';
 }
