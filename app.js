@@ -6,6 +6,7 @@ var mecab = require('mecab-ffi');
 var sleep = require('system-sleep');
 var Horseman = require('node-horseman');
 var path = require('path');
+var fs = require('fs');
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
@@ -177,7 +178,7 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  horseman.open('https://www.google.co.kr/search?q=%EC%98%A4%EB%8A%98+%EC%B2%9C%EC%95%88+%EB%82%A0%EC%94%A8')
+  horseman.open('https://www.google.co.kr/search?q=한국+서울+오늘+날씨')
   .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
 
   sleep(1000);
