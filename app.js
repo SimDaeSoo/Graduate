@@ -289,11 +289,13 @@ app.post('/message', function(req,res){
 
           client.query('SELECT * FROM Count_Table',function(err,count_res){
             q_length = count_res[0].tot_q;
-            if(system_mode == 2){
+            if(system_mode){
               for( var key in result ) {
                 toStringRes += key + '['+result[key]+']\n';
               }
             }
+
+            console.log('Morphology Analysis:\n');
 
             var answer;
 
