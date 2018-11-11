@@ -507,7 +507,7 @@ app.post('/message', function(req,res){
 app.get('/images', function(req, res) {
   console.log(req.body);
   res.sendFile(__dirname + "/images/img.jpeg");
-}
+});
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
