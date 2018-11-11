@@ -272,7 +272,7 @@ app.post('/message', function(req,res){
       }
     }
 
-    sleep(1000);
+    sleep(100);
 
     /*
       Select Sentence 2018.05.08 Sim Dae-Soo
