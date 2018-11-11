@@ -177,17 +177,6 @@ app.post('/message', function(req,res){
   var Count_Array = new Array();
   var Window_Length = 2;
 
-  var horseman = new Horseman();
-  var uri = 'https://www.google.co.kr/search?q=한국+서울+오늘+날씨';
-  var encoded = encodeURI(uri);
-  console.log(encoded);
-  var url = encoded;
-  horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
-  .open(url)
-  .crop('#wob_wc', __dirname+'/images/img.JPEG');
-
-  sleep(1000);
-
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
       client.query('INSERT INTO Sys_User(user_key,sys_status) VALUES ('+'\''+user_key+'\''+',0)',function(err,query_res){
@@ -442,63 +431,73 @@ app.post('/message', function(req,res){
                 client.query('UPDATE Count_Table SET tot_avg_score = tot_avg_score + '+Similarity+",tot_answer_cnt = tot_answer_cnt + 1",function(err,q_res){
                 });
 
-                if(Similarity <55 && TempIntersection+Temp_Union <= 10)
-                {
-                  answer = {
-                    "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
-                    }
-                  }
-                }else if(Similarity <47 && TempIntersection+Temp_Union <= 13)
-                {
-                  answer = {
-                    "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
-                    }
-                  }
-                }else if(Similarity <39 && TempIntersection+Temp_Union <= 16)
-                {
-                  answer = {
-                    "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
-                    }
-                  }
-                }else if(Similarity < 32 &&  TempIntersection+Temp_Union <= 19){
-                  answer = {
-                    "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
-                    }
-                  }
-                }else if(Similarity < 22){
-                  answer = {
-                    "message":{
-                      "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
-                    }
-                  }
-                }else{
-                  var level = "";
-                  if(Similarity < 45){
-                    level = "낮음";
-                  }else if(Similarity < 65){
-                    level = "보통";
-                  }else if(Similarity < 85){
-                    level = "높음";
-                  }else{
-                    level = "매우높음";
-                  }
+                // 명령어 분기.
+                if (Answer_tbl[Similarity_Q_Id].answer.split('system(')[1] != undefined) {
+                  var filename = systemParser(Answer_tbl[Similarity_Q_Id].answer);
                   answer = {
                     "message":{
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
                       "photo": {
-                        "url": "http://13.125.224.92:8080/images/img.jpeg",
+                        "url": "http://13.125.224.92:8080/images/"+filename,
                         "width": 632,
                         "height": 499
                       }
                     }
                   }
+                } else {
+                  if(Similarity <55 && TempIntersection+Temp_Union <= 10)
+                  {
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      }
+                    }
+                  }else if(Similarity <47 && TempIntersection+Temp_Union <= 13)
+                  {
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      }
+                    }
+                  }else if(Similarity <39 && TempIntersection+Temp_Union <= 16)
+                  {
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      }
+                    }
+                  }else if(Similarity < 32 &&  TempIntersection+Temp_Union <= 19){
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      }
+                    }
+                  }else if(Similarity < 22){
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer +"\n<System : 응답성이 떨어집니다>\n[유사도 : 매우낮음]\n#학습모드에서 학습시켜 주세요." // in case 'text'
+                      }
+                    }
+                  }else{
+                    var level = "";
+                    if(Similarity < 45){
+                      level = "낮음";
+                    }else if(Similarity < 65){
+                      level = "보통";
+                    }else if(Similarity < 85){
+                      level = "높음";
+                    }else{
+                      level = "매우높음";
+                    }
+                    answer = {
+                      "message":{
+                        "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
+                      }
+                    }
+                  }
                 }
+                res.send(answer);
               }
-              res.send(answer);
             }
           });
         });
@@ -539,28 +538,38 @@ app.get('/wordembedding',function(req,res){
   });
 });
 
-/*  API Test
-answer can use
-{
-  "message": {
-    "text": "귀하의 차량이 성공적으로 등록되었습니다. 축하합니다!",
-    "photo": {
-      "url": "https://photo.src",
-      "width": 640,
-      "height": 480
-    },
-    "message_button": {
-      "label": "주유 쿠폰받기",
-      "url": "https://coupon/url"
-    }
-  },
-  "keyboard": {
-    "type": "buttons",
-    "buttons": [
-      "처음으로",
-      "다시 등록하기",
-      "취소하기"
-    ]
-  }
+function systemParser(string) {
+  var command = string.split('(')[1].split(')')[0].split('[')[0].replace(/'/g,'').split(',')[0];
+  var selector = string.split('(')[1].split(')')[0].split('[')[0].replace(/'/g,'').split(',')[0];
+  var option = string.split('(')[1].split(')')[0].split('[')[1].replace(/[+/'+]]*/g,'').split(',')
+
+  var param = {
+    selector: selector,
+    param: option
+  };
+
+  return search(param);
 }
-*/
+
+function search(options) {
+  var query = '';
+  var selector = options.selector;
+
+  for(i=0;i<options.param.length;i++)
+  {
+    query += '+' + options[i];
+  }
+
+  var horseman = new Horseman();
+  var uri = 'https://www.google.co.kr/search?q='+query;
+  var encoded = encodeURI(uri);
+  var date = new Date().toTimeString().replace(/:/g, '');
+  console.log(encoded);
+  var url = encoded;
+  horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
+  .open(url)
+  .crop(selector, __dirname+'/images/'+date+'.JPEG');
+  sleep(2000);
+
+  return date+'.JPEG';
+}
