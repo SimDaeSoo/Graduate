@@ -177,9 +177,11 @@ app.post('/message', function(req,res){
 
   var horseman = new Horseman();
   horseman.open('https://www.google.co.kr/search?q=%EB%82%A0%EC%94%A8&oq=%EB%82%A0%EC%94%A8&aqs=chrome..69i57j0l5.1931j0j7&sourceid=chrome&ie=UTF-8')
-  .crop('.vk_c.card-section', 'images/TodayWeather.jpg').close();
+  .crop('.vk_c.card-section', 'images/TodayWeather.jpg').then(function(string){
+    console.log('saved images');
+  }).close();
 
-  sleep(200);
+  sleep(2000);
 
   client.query('SELECT * FROM Sys_User WHERE user_key='+'\''+user_key+'\'',function(err,query_res){
     if(query_res.length==0){
