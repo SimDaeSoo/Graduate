@@ -495,8 +495,8 @@ app.post('/message', function(req,res){
                   }
                 }
               }
-              res.send(answer);
             }
+            res.send(answer);
           });
         });
       });
@@ -546,10 +546,14 @@ function systemParser(string) {
     param: option
   };
 
-  return search(param);
+  if (command == 'imgSearch') {
+    return search('https://www.google.co.kr/search?tbm=isch&q=',param);
+  } else if(command == 'search') {
+    return search('https://www.google.co.kr/search?q=',param);
+  }
 }
 
-function search(options) {
+function search(baseUrl, options) {
   var query = '';
   var selector = options.selector;
 
@@ -559,7 +563,7 @@ function search(options) {
   }
 
   var horseman = new Horseman();
-  var uri = 'https://www.google.co.kr/search?q='+query;
+  var uri = baseUrl+query;
   var encoded = encodeURI(uri);
   var date = new Date().toTimeString().replace(/[\s+:]/g, '');
   var url = encoded;
