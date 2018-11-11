@@ -183,7 +183,7 @@ app.post('/message', function(req,res){
   console.log(encoded);
   var url = encoded;
   horseman.open(url)
-  .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
+  .crop({left: 200, top: 300, right: 800, bottom: 600}, __dirname+'/images/img.JPEG');
 
   sleep(1000);
 
@@ -490,8 +490,8 @@ app.post('/message', function(req,res){
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
                       "photo": {
                         "url": "http://13.125.224.92:8080/images/img.jpeg",
-                        "width": 632,
-                        "height": 499
+                        "width": 600,
+                        "height": 300
                       }
                     }
                   }
