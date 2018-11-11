@@ -177,9 +177,8 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  var picture = "'data:image/(png|jpg);base64,'";
   horseman.open('https://www.google.co.kr/search?q=%EC%98%A4%EB%8A%98+%EC%B2%9C%EC%95%88+%EB%82%A0%EC%94%A8')
-  .crop({width:'600',height:'400'}, __dirname+'/images/img.JPEG');
+  .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
 
   sleep(1000);
 
@@ -485,7 +484,7 @@ app.post('/message', function(req,res){
                     "message":{
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
                       "photo": {
-                        "url": "https://photo.src",
+                        "url": "http://13.125.224.92:8080/images/img.jpeg",
                         "width": 632,
                         "height": 499
                       }
@@ -505,6 +504,10 @@ app.post('/message', function(req,res){
 /*
   Hompage 2018.05.08 Sim Dae-Soo
 */
+app.get('/images', function(req, res) {
+  console.log(req.body);
+  res.sendFile(__dirname + "/images/img.jpeg");
+}
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
