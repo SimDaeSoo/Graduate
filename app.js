@@ -178,7 +178,7 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  var txt = 'https://www.google.co.kr/search?hl=ko&ei=4r_nW7z8HMaZ8gXawoy4Ag&q=%ED%95%9C%EA%B5%AD+%EC%84%9C%EC%9A%B8+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&oq=%ED%95%9C%EA%B5%AD+%EC%84%9C%EC%9A%B8+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&gs_l=psy-ab.3...3070.3521.0.4834.6.5.0.0.0.0.183.342.0j2.2.0....0...1c.1j4.64.psy-ab..5.0.0....0.rDGQR_0SDCI'
+  var txt = 'https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%ED%95%9C%EA%B5%AD+%EC%84%9C%EC%9A%B8+%EB%82%A0%EC%94%A8'
   horseman.open(txt)
   .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
 
