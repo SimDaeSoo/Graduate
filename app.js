@@ -289,13 +289,11 @@ app.post('/message', function(req,res){
 
           client.query('SELECT * FROM Count_Table',function(err,count_res){
             q_length = count_res[0].tot_q;
-            if(system_mode){
-              for( var key in result ) {
-                toStringRes += key + '['+result[key]+']\n';
-              }
+            for( var key in result ) {
+              toStringRes += key + '['+result[key]+']\n';
             }
 
-            console.log('Morphology Analysis:\n', toStringRes);
+            console.log('Morphology Analysis:\n');
 
             var answer;
 
@@ -578,9 +576,9 @@ function chartSearch(baseUrl, options) {
   .open(url).evaluate(function() {
     document.body.style.backgroundColor = 'white';
   });
-  sleep(1500);
+  sleep(1000);
   horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
-  sleep(1500);
+  sleep(2000);
 
   return date+'.JPEG';
 }
