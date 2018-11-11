@@ -240,18 +240,22 @@ app.post('/message', function(req,res){
               */
               console.log(toQuery);
               client.query('INSERT INTO Q_Table(id,q_index,q_length,q_1,q_2,q_3,q_4,q_count,q_type) VALUES '+toQuery,function(err,query_res_1){
+                console.log('INSERT Q_Table', query_res_1);
                 mecab.parse(temp_a, function(err, result) {
                   var new_a_id = 0;
 
                   client.query('SELECT * FROM Count_Table',function(err,res){
+                    console.log('Count_Table select', res);
                     new_a_id = res[0].tot_q;
                     var toQuery = "";
                     toQuery+='(\''+new_a_id+'\'';
                     toQuery+=',\''+temp_a+'\')';
                     client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res_2){
+                      console.log('A_talble', query_res_2);
                     });
                     new_a_id++;
                     client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res_3){
+                      console.log('Tot_Q Update', query_res_3);
                     });
                   });
                 });
