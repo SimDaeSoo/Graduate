@@ -293,7 +293,7 @@ app.post('/message', function(req,res){
               toStringRes += key + '['+result[key]+']\n';
             }
 
-            console.log('Morphology Analysis:\n', toStringRes);
+            console.log('Morphology Analysis:\n'+toStringRes);
 
             var answer;
 
