@@ -436,9 +436,7 @@ app.post('/message', function(req,res){
                     "message":{
                       "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +Similarity+ "% ]", // in case 'text'
                       "photo": {
-                        "url": "http://13.125.224.92:8080/images/"+filename,
-                        "width": 632,
-                        "height": 499
+                        "url": "http://13.125.224.92:8080/images/"+filename
                       }
                     }
                   }
@@ -546,10 +544,14 @@ function systemParser(string) {
     param: option
   };
 
-  return search(param);
+  if (command == 'imgSearch') {
+    return search('https://www.google.co.kr/search?tbm=isch&q=',param);
+  } else if(command == 'search') {
+    return search('https://www.google.co.kr/search?q=',param);
+  }
 }
 
-function search(options) {
+function search(baseUrl, options) {
   var query = '';
   var selector = options.selector;
 
@@ -559,7 +561,7 @@ function search(options) {
   }
 
   var horseman = new Horseman();
-  var uri = 'https://www.google.co.kr/search?q='+query;
+  var uri = baseUrl+query;
   var encoded = encodeURI(uri);
   var date = new Date().toTimeString().replace(/[\s+:]/g, '');
   var url = encoded;
