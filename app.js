@@ -252,10 +252,25 @@ app.post('/message', function(req,res){
                     toQuery+=',\''+temp_a+'\')';
                     client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res_2){
                       console.log('A_talble', query_res_2);
-                    });
-                    new_a_id++;
-                    client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res_3){
-                      console.log('Tot_Q Update', query_res_3);
+                      new_a_id++;
+                      client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res_3){
+                        console.log('Tot_Q Update', query_res_3);
+
+                          if(learn_error == 1){
+                            answer = {
+                              "message":{
+                                "text":"<System : 학습실패>" // in case 'text'
+                              }
+                            }
+                          }else{
+                            answer = {
+                              "message":{
+                                "text":"<System : 학습완료>" // in case 'text'
+                              }
+                            }
+                          }
+                          res.send(answer);
+                      });
                     });
                   });
                 });
@@ -336,21 +351,7 @@ app.post('/message', function(req,res){
                 }
                 res.send(answer);
             }else{
-              if(system_mode == 1){
-                if(learn_error == 1){
-                  answer = {
-                    "message":{
-                      "text":"<System : 학습실패>" // in case 'text'
-                    }
-                  }
-                }else{
-                  answer = {
-                    "message":{
-                      "text":"<System : 학습완료>" // in case 'text'
-                    }
-                  }
-                }
-              }else if(system_mode == 2){
+              if(system_mode == 2){
                 answer = {
                   "message":{
                     "text":"<System : 형태소 분석 결과>\n"+toStringRes // in case 'text'
