@@ -540,7 +540,7 @@ app.get('/wordembedding',function(req,res){
 
 function systemParser(string) {
   var command = string.split('(')[1].split(')')[0].split('[')[0].replace(/'/g,'').split(',')[0];
-  var selector = string.split('(')[1].split(')')[0].split('[')[0].replace(/'/g,'').split(',')[0];
+  var selector = string.split('(')[1].split(')')[0].split('[')[0].replace(/'/g,'').split(',')[1];
   var option = string.split('(')[1].split(')')[0].split('[')[1].replace(/[+/'+]]*/g,'').split(',')
 
   var param = {
@@ -568,7 +568,7 @@ function search(options) {
   var url = encoded;
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url)
-  sleep(1500);
+  sleep(1000);
   horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
   sleep(1500);
 
