@@ -574,7 +574,7 @@ function chartSearch(baseUrl, options) {
 
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url).evaluate(function() {
-    document.body.bgColor = 'white';
+    document.body.style.backgroundColor = 'white';
   });
   sleep(1500);
   horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
