@@ -491,7 +491,7 @@ app.post('/message', function(req,res){
                     }
                     answer = {
                       "message":{
-                        "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +level+ "]", // in case 'text'
+                        "text":Answer_tbl[Similarity_Q_Id].answer + "\n[유사도 : " +Similarity+ "% ]", // in case 'text'
                       }
                     }
                   }
@@ -568,8 +568,9 @@ function search(options) {
   var url = encoded;
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url)
-  .crop(selector, __dirname+'/images/'+date+'.JPEG');
-  sleep(2000);
+  sleep(1500);
+  horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
+  sleep(1500);
 
   return date+'.JPEG';
 }
