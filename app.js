@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var mecab = require('mecab-ffi');
 var sleep = require('system-sleep');
+var Horseman = require('node-horseman');
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
