@@ -567,6 +567,9 @@ function search(baseUrl, options) {
   var encoded = encodeURI(uri);
   var date = new Date().toTimeString().replace(/[\s+:]/g, '');
   var url = encoded;
+
+  console.log(url);
+
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
   .open(url)
   sleep(1000);
