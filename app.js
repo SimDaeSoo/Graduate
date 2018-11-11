@@ -440,6 +440,7 @@ app.post('/message', function(req,res){
                       }
                     }
                   }
+                  res.send(answer);
                 } else {
                   if(Similarity <55 && TempIntersection+Temp_Union <= 10)
                   {
