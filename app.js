@@ -557,7 +557,7 @@ function search(options) {
 
   for(i=0;i<options.param.length;i++)
   {
-    query += '+' + options[i];
+    query += '+' + options.param[i];
   }
 
   var horseman = new Horseman();
