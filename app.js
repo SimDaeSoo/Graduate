@@ -251,8 +251,9 @@ app.post('/message', function(req,res){
                     var toQuery = "";
                     toQuery+='(\''+new_a_id+'\'';
                     toQuery+=',\''+temp_a+'\')';
+                    console.log(toQuery);
                     client.query('INSERT INTO A_Table(a_id,answer) VALUES '+toQuery,function(err,query_res_2){
-                      console.log('A_talble', query_res_2);
+                      console.log('A_table', query_res_2);
                       new_a_id++;
                       client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res_3){
                         console.log('Tot_Q Update', query_res_3);
