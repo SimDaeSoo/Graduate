@@ -178,8 +178,11 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  var txt = 'https://www.google.co.kr/search?q=한국+서울+오늘+날씨&sourceid=chrome&ie=UTF-8'
-  horseman.open(txt)
+  var uri = 'https://www.google.co.kr/search?q=한국+서울+오늘+날씨';
+  var encoded = encodeURI(uri);
+  console.log(encoded);
+  var url = encoded;
+  horseman.open(url)
   .crop({x:'100',y:'100',width:'600',height:'400'}, __dirname+'/images/img.JPEG');
 
   sleep(1000);
