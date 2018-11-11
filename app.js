@@ -547,9 +547,9 @@ function systemParser(string) {
   };
 
   if (command == 'imgSearch') {
-    return search('https://www.google.co.kr/search?tbm=isch&q=',param);
+    return search('http://www.google.co.kr/search?tbm=isch&q=',param);
   } else if(command == 'search') {
-    return search('https://www.google.co.kr/search?q=',param);
+    return search('http://www.google.co.kr/search?q=',param);
   }
 }
 
