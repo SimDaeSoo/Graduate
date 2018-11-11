@@ -550,8 +550,8 @@ function systemParser(string) {
     return search('http://www.google.co.kr/search?tbm=isch&q=',param);
   } else if(command == 'search') {
     return search('http://www.google.co.kr/search?q=',param);
-  } else if(command == 'melon') {
-    return chartSearch('http://www.melon.com/',param);
+  } else if(command == 'genie') {
+    return chartSearch('http://www.genie.co.kr/',param);
   }
 }
 
