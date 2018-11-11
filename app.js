@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var mecab = require('mecab-ffi');
+var sleep = require('system-sleep');
 
 var client = mysql.createConnection({
     hostname : "127.0.0.1:3306",
@@ -255,21 +256,6 @@ app.post('/message', function(req,res){
                       new_a_id++;
                       client.query('UPDATE Count_Table SET tot_q ='+new_a_id,function(err,query_res_3){
                         console.log('Tot_Q Update', query_res_3);
-
-                          if(learn_error == 1){
-                            answer = {
-                              "message":{
-                                "text":"<System : 학습실패>" // in case 'text'
-                              }
-                            }
-                          }else{
-                            answer = {
-                              "message":{
-                                "text":"<System : 학습완료>" // in case 'text'
-                              }
-                            }
-                          }
-                          res.send(answer);
                       });
                     });
                   });
@@ -284,6 +270,8 @@ app.post('/message', function(req,res){
         learn_error = 1;
       }
     }
+
+    sleep(1000);
 
     /*
       Select Sentence 2018.05.08 Sim Dae-Soo
@@ -351,7 +339,21 @@ app.post('/message', function(req,res){
                 }
                 res.send(answer);
             }else{
-              if(system_mode == 2){
+              if(system_mode == 1){
+                if(learn_error == 1){
+                  answer = {
+                    "message":{
+                      "text":"<System : 학습실패>" // in case 'text'
+                    }
+                  }
+                }else{
+                  answer = {
+                    "message":{
+                      "text":"<System : 학습완료>" // in case 'text'
+                    }
+                  }
+                }
+              }else if(system_mode == 2){
                 answer = {
                   "message":{
                     "text":"<System : 형태소 분석 결과>\n"+toStringRes // in case 'text'
