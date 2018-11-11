@@ -176,10 +176,12 @@ app.post('/message', function(req,res){
   var Window_Length = 2;
 
   var horseman = new Horseman();
-  horseman.open('http://www.google.co.kr')
-  .cropBase64({width:'600',height:'400'}, 'JPEG')
+  var picture = "'data:image/(png|jpg);base64,'";
+  horseman.open('https://www.google.co.kr/search?q=%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8')
+  .cropBase64('.vk_c.card-section', 'JPEG')
   .then(function(string){
-    console.log(string);
+    picture += string + "'/";
+    console.log(picture);
   }).close();
 
   sleep(2000);
