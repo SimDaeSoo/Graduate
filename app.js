@@ -182,8 +182,8 @@ app.post('/message', function(req,res){
   var encoded = encodeURI(uri);
   console.log(encoded);
   var url = encoded;
-  horseman.open(url)
-  .userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
+  horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
+  .open(url)
   .crop('#wob_wc', __dirname+'/images/img.JPEG');
 
   sleep(1000);
