@@ -568,7 +568,9 @@ function chartSearch(baseUrl, options) {
   console.log(url);
 
   horseman.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0')
-  .open(url)
+  .open(url).evaluate(function() {
+    document.body.bgColor = 'white';
+  });
   sleep(1500);
   horseman.crop(selector, __dirname+'/images/'+date+'.JPEG');
   sleep(1500);
